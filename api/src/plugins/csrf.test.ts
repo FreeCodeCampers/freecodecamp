@@ -15,7 +15,6 @@ async function setupServer() {
   const fastify = Fastify();
   await fastify.register(cookies);
   await fastify.register(csrf);
-  // @ts-expect-error - @fastify/csrf-protection needs to update their types
   // eslint-disable-next-line @typescript-eslint/unbound-method
   fastify.addHook('onRequest', fastify.csrfProtection);
 
