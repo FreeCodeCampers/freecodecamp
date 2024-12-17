@@ -116,10 +116,10 @@ export const settingRoutes: FastifyPluginCallbackTypebox = (
 
   // TODO: figure out if there's a nicer way to generate this type
   type UpdateReplyType = FastifyReply<
+    RouteGenericInterface,
     RawServerDefault,
     RawRequestDefaultExpression<RawServerDefault>,
     RawReplyDefaultExpression<RawServerDefault>,
-    RouteGenericInterface,
     ContextConfigDefault,
     CommonResponseSchema,
     TypeBoxTypeProvider,
