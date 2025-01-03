@@ -23,7 +23,6 @@ export const saveChallenge = {
         type: Type.Literal('error')
       })
     ]),
-    403: genericError,
     default: genericError
   }
 };
