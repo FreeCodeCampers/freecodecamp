@@ -8,7 +8,7 @@
     "@fastify/accepts": "5.0.2",
     "@fastify/cookie": "11.0.1",
     "@fastify/csrf-protection": "7.0.1",
-    "@fastify/oauth2": "8.1.0",
+    "@fastify/oauth2": "8.1.2",
     "@fastify/rate-limit": "10.2.1",
     "@fastify/swagger": "9.4.0",
     "@fastify/swagger-ui": "5.2.0",
