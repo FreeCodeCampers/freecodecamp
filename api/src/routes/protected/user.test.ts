@@ -397,17 +397,17 @@ describe('userRoutes', () => {
       test("POST deletes all the user's cookies", async () => {
         const res = await superPost('/account/delete');
 
-        const setCookie = res.headers['set-cookie'];
+        const setCookie = res.headers['set-cookie'] as string[];
         expect(setCookie).toEqual(
           expect.arrayContaining([
             expect.stringMatching(
-              /^jwt_access_token=; Path=\/; Expires=Thu, 01 Jan 1970 00:00:00 GMT/
+              /^_csrf=; Max-Age=0; Path=\/; Expires=Thu, 01 Jan 1970 00:00:00 GMT/
             ),
             expect.stringMatching(
-              /^csrf_token=; Path=\/; Expires=Thu, 01 Jan 1970 00:00:00 GMT/
+              /^csrf_token=; Max-Age=0; Path=\/; Expires=Thu, 01 Jan 1970 00:00:00 GMT/
             ),
             expect.stringMatching(
-              /^_csrf=; Path=\/; Expires=Thu, 01 Jan 1970 00:00:00 GMT/
+              /^jwt_access_token=; Max-Age=0; Path=\/; Expires=Thu, 01 Jan 1970 00:00:00 GMT/
             )
           ])
         );

@@ -164,7 +164,6 @@ export const build = async (
       // TODO: bounce unauthed requests before checking CSRF token. This will
       // mean moving csrfProtection into custom plugin and testing separately,
       // because it's a pain to mess around with other cookies/hook order.
-      // @ts-expect-error - @fastify/csrf-protection needs to update their types
       // eslint-disable-next-line @typescript-eslint/unbound-method
       fastify.addHook('onRequest', fastify.csrfProtection);
       fastify.addHook('onRequest', fastify.send401IfNoUser);

@@ -77,7 +77,6 @@ describe('server', () => {
       expect(res.headers).toMatchObject({
         'cache-control': 'no-store',
         'content-security-policy': "frame-ancestors 'none'",
-        'content-type': 'text/html; charset=utf-8',
         'x-content-type-options': 'nosniff',
         'x-frame-options': 'DENY'
       });

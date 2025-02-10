@@ -11,8 +11,6 @@ COPY --chown=node:node client/ client/
 COPY --chown=node:node shared/ shared/
 COPY --chown=node:node tools/ tools/
 COPY --chown=node:node curriculum/ curriculum/
-# TODO: Remove once `@fastify/oauth2` is fixed
-COPY --chown=node:node patches/ patches/
 
 ARG HOME_LOCATION
 ARG API_LOCATION
