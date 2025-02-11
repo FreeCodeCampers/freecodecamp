@@ -88,7 +88,7 @@ jobs:
         run: |
           pnpm run start-ci &
           sleep 10
-          npx playwright test third-party-donation.spec.ts --project=${{ matrix.browsers }}
+          npx playwright test -c e2e third-party-donation.spec.ts --project=${{ matrix.browsers }}
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}

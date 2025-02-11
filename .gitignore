@@ -204,7 +204,7 @@ curriculum/build
 
 ### Playwright ###
 
-/playwright
+/e2e/playwright
 
 ### Shadow Testing Log Files Folder ###
 api/logs/

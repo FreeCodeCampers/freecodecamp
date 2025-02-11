@@ -84,8 +84,8 @@
     "test-tools": "jest tools",
     "test-utils": "jest utils",
     "prepare": "husky",
-    "playwright:run": "playwright test",
-    "playwright:watch": "playwright test --ui"
+    "playwright:run": "playwright test -c e2e",
+    "playwright:watch": "playwright test --ui -c e2e"
   },
   "dependencies": {
     "dotenv": "16.4.5"
