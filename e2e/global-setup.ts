@@ -12,7 +12,7 @@ setup.describe('certifieduser', () => {
   setup('can sign in', async ({ request }) => {
     await request.get(process.env.API_LOCATION + '/signin');
     await request.storageState({
-      path: 'playwright/.auth/certified-user.json'
+      path: 'e2e/playwright/.auth/certified-user.json'
     });
   });
 });
@@ -35,7 +35,7 @@ setup.describe('developmentuser', () => {
   setup('can sign in', async ({ request }) => {
     await request.get(process.env.API_LOCATION + '/signin');
     await request.storageState({
-      path: 'playwright/.auth/development-user.json'
+      path: 'e2e/playwright/.auth/development-user.json'
     });
   });
 });

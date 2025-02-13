@@ -171,7 +171,7 @@ jobs:
         run: pnpm run seed:certified-user
 
       - name: Run playwright tests
-        run: npx playwright test --project=${{ matrix.browsers }} --grep-invert 'third-party-donation.spec.ts'
+        run: npx playwright test -c e2e --project=${{ matrix.browsers }} --grep-invert 'third-party-donation.spec.ts'
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}

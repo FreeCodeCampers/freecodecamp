@@ -173,7 +173,7 @@ export default tseslint.config(
     ]
   },
   {
-    files: ['e2e/*.ts'],
+    files: ['e2e/specs/*.ts'],
 
     rules: {
       '@typescript-eslint/no-unsafe-member-access': 'off',
