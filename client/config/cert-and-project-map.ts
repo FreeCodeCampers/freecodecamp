@@ -127,8 +127,8 @@ const allStandardCerts = [
       },
       {
         id: '6555c1d3e11a1574434cf8b5',
-        title: 'Build a Pokémon Search App',
-        link: getJavaScriptAlgoPath('build-a-pokemon-search-app'),
+        title: 'Build an RPG Creature Search App',
+        link: getJavaScriptAlgoPath('build-an-rpg-creature-search-app'),
         certSlug: Certification.JsAlgoDataStructNew
       }
     ]

@@ -13,4 +13,4 @@ tests:
   - id: 657bdcc3a322aae1eac38392
     title: Build a Cash Register
   - id: 6555c1d3e11a1574434cf8b5
-    title: Build a Pokémon Search App
+    title: Build an RPG Creature Search App
