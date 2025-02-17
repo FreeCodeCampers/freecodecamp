@@ -268,7 +268,10 @@ export const protectedCertificateRoutes: FastifyPluginCallbackTypebox = (
     async (req, reply) => {
       const { certSlug } = req.body;
 
+      const logger = fastify.log.child({ req });
+
       if (!isKnownCertSlug(certSlug) || !isCertAllowed(certSlug)) {
+        logger.debug('invalid certificate type');
         void reply.code(400);
         return {
           response: {
@@ -302,6 +305,7 @@ export const protectedCertificateRoutes: FastifyPluginCallbackTypebox = (
 
       // TODO: Discuss if this is a requirement still
       if (!user.name) {
+        logger.debug('user has not set name');
         void reply.code(400);
         return {
           response: {
@@ -335,6 +339,7 @@ export const protectedCertificateRoutes: FastifyPluginCallbackTypebox = (
       );
 
       if (!hasCompletedTestRequirements) {
+        logger.debug('user has not completed test requirements');
         void reply.code(400);
         return {
           response: {
@@ -401,6 +406,7 @@ export const protectedCertificateRoutes: FastifyPluginCallbackTypebox = (
         isEmail(updatedUser.email) && hasCompletedAllCerts;
 
       if (shouldSendCertifiedEmailToCamper) {
+        logger.debug('sending certified email to camper');
         const notifyUser = {
           to: updatedUser.email,
           from: 'quincy@freecodecamp.org',
