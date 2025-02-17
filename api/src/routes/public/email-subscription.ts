@@ -35,11 +35,15 @@ export const emailSubscribtionRoutes: FastifyPluginCallbackTypebox = (
       try {
         const { origin } = getRedirectParams(req);
         const { unsubscribeId } = req.params;
+        const log = fastify.log.child({ req, unsubscribeId });
+        log.debug('Processing unsubscribe request');
+
         const unsubUsers = await fastify.prisma.user.findMany({
           where: { unsubscribeId }
         });
 
         if (!unsubUsers.length) {
+          log.warn('No users found for unsubscribe request');
           void reply.code(302);
           return reply.redirectWithMessage(origin, {
             type: 'info',
@@ -57,6 +61,7 @@ export const emailSubscribtionRoutes: FastifyPluginCallbackTypebox = (
         );
 
         await Promise.all(userUpdatePromises);
+        log.info('Successfully unsubscribed users from email');
 
         return reply.redirectWithMessage(
           `${origin}/unsubscribed/${unsubscribeId}`,
@@ -66,12 +71,12 @@ export const emailSubscribtionRoutes: FastifyPluginCallbackTypebox = (
           }
         );
       } catch (error) {
-        fastify.log.error(error);
+        fastify.log.error(error, 'Failed to unsubscribe user from email');
         fastify.Sentry.captureException(error);
         void reply.code(302);
         return reply.redirectWithMessage(origin, {
           type: 'danger',
-          content: 'Something went wrong.'
+          content: `Failed to unsubscribe user, please contact support at support@freecodecamp.org`
         });
       }
     }
@@ -99,11 +104,15 @@ export const emailSubscribtionRoutes: FastifyPluginCallbackTypebox = (
       try {
         const { origin } = getRedirectParams(req);
         const { unsubscribeId } = req.params;
+        const log = fastify.log.child({ req, unsubscribeId });
+        log.debug('Processing resubscribe request');
+
         const user = await fastify.prisma.user.findFirst({
           where: { unsubscribeId }
         });
 
         if (!user) {
+          log.warn('No user found for resubscribe request');
           void reply.code(302);
           return reply.redirectWithMessage(origin, {
             type: 'info',
@@ -117,6 +126,7 @@ export const emailSubscribtionRoutes: FastifyPluginCallbackTypebox = (
             sendQuincyEmail: true
           }
         });
+        log.info('Successfully resubscribed user to email');
 
         return reply.redirectWithMessage(origin, {
           type: 'success',
@@ -124,7 +134,7 @@ export const emailSubscribtionRoutes: FastifyPluginCallbackTypebox = (
             "We've successfully updated your email preferences. Thank you for resubscribing."
         });
       } catch (error) {
-        fastify.log.error(error);
+        fastify.log.error(error, 'Failed to resubscribe user to email');
         fastify.Sentry.captureException(error);
         void reply.code(302);
         return reply.redirectWithMessage(origin, {
