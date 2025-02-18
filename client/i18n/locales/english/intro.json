@@ -672,8 +672,8 @@
           "In this 40-lesson course, you will learn how to edit files in the terminal with Nano while building a castle."
         ]
       },
-      "learn-relational-databases-by-building-a-mario-database": {
-        "title": "Learn Relational Databases by Building a Mario Database",
+      "learn-relational-databases-by-building-a-database-of-video-game-characters": {
+        "title": "Learn Relational Databases by Building a Database of Video Game Characters",
         "intro": [
           "A relational database organizes data into tables that are linked together through relationships.",
           "In this 165-lesson course, you will learn the basics of a relational database by creating a PostgreSQL database filled with video game characters."
@@ -3528,8 +3528,8 @@
         "intro": ["Test what you've learned bash commands with this quiz."]
       },
       "voks": { "title": "306", "intro": [] },
-      "workshop-mario-database": {
-        "title": "Build a Mario Database",
+      "workshop-database-of-video-game-characters": {
+        "title": "Build a Database of Video Game Characters",
         "intro": [
           "A relational database organizes data into tables that are linked together through relationships.",
           "In this 165-lesson workshop, you will learn the basics of a relational database by creating a PostgreSQL database filled with video game characters."

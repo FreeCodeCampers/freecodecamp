@@ -1,0 +1,15 @@
+{
+  "name": "Learn Relational Databases by Building a Database of Video Game Characters",
+  "isUpcomingChange": false,
+  "dashedName": "learn-relational-databases-by-building-a-database-of-video-game-characters",
+  "helpCategory": "Backend Development",
+  "order": 1,
+  "superBlock": "relational-database",
+  "challengeOrder": [
+    {
+      "id": "5f2c289f164c29556da632fd",
+      "title": "Build a Database of Video Game Characters"
+    }
+  ],
+  "blockLayout": "project-list"
+}
