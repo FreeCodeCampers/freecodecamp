@@ -161,6 +161,17 @@ describe('challengeRoutes', () => {
       await seedExam();
     });
 
+    beforeAll(() => {
+      jest.useFakeTimers({
+        doNotFake: ['nextTick']
+      });
+      jest.setSystemTime(DATE_NOW);
+    });
+
+    afterAll(() => {
+      jest.useRealTimers();
+    });
+
     describe('POST /coderoad-challenge-completed', () => {
       test('should return 400 if no tutorialId', async () => {
         const response = await superPost('/coderoad-challenge-completed');
@@ -439,7 +450,6 @@ describe('challengeRoutes', () => {
         });
 
         it('POST accepts CodeRoad/CodeAlly projects when the user has completed the required challenges', async () => {
-          const now = Date.now();
           const response =
             await superPost('/project-completed').send(codeallyProject);
 
@@ -452,16 +462,14 @@ describe('challengeRoutes', () => {
             completedChallenges: [
               {
                 ...codeallyProject,
-                completedDate: expect.any(Number)
+                completedDate: DATE_NOW
               }
             ]
           });
 
           const completedDate = user?.completedChallenges[0]?.completedDate;
 
-          // TODO: use a custom matcher for this
-          expect(completedDate).toBeGreaterThan(now);
-          expect(completedDate).toBeLessThan(now + 1000);
+          expect(completedDate).toEqual(DATE_NOW);
 
           expect(response.body).toStrictEqual({
             alreadyCompleted: false,
@@ -473,8 +481,6 @@ describe('challengeRoutes', () => {
         });
 
         it('POST accepts backend projects', async () => {
-          const now = Date.now();
-
           const response =
             await superPost('/project-completed').send(backendProject);
 
@@ -487,16 +493,14 @@ describe('challengeRoutes', () => {
             completedChallenges: [
               {
                 ...backendProject,
-                completedDate: expect.any(Number)
+                completedDate: DATE_NOW
               }
             ]
           });
 
           const completedDate = user?.completedChallenges[0]?.completedDate;
 
-          // TODO: use a custom matcher for this
-          expect(completedDate).toBeGreaterThan(now);
-          expect(completedDate).toBeLessThan(now + 1000);
+          expect(completedDate).toEqual(DATE_NOW);
 
           expect(response.body).toStrictEqual({
             alreadyCompleted: false,
@@ -548,7 +552,7 @@ describe('challengeRoutes', () => {
           expect(resUpdate.body).toStrictEqual({
             alreadyCompleted: true,
             points: 2,
-            completedDate: expect.any(Number)
+            completedDate: DATE_NOW
           });
 
           // If a challenge has already been completed, it should return the
@@ -562,6 +566,12 @@ describe('challengeRoutes', () => {
     });
 
     describe('/backend-challenge-completed', () => {
+      afterEach(() => {
+        // Some tests in the suite override the system time to mimic time passed.
+        // Restore system time so that other tests are not affected.
+        jest.setSystemTime(DATE_NOW);
+      });
+
       describe('validation', () => {
         test('POST rejects requests without ids', async () => {
           const response = await superPost('/backend-challenge-completed');
@@ -596,8 +606,6 @@ describe('challengeRoutes', () => {
         });
 
         test('POST accepts backend challenges', async () => {
-          const now = Date.now();
-
           const response = await superPost('/backend-challenge-completed').send(
             backendChallengeBody1
           );
@@ -610,14 +618,13 @@ describe('challengeRoutes', () => {
             completedChallenges: [
               {
                 ...backendChallengeBody1,
-                completedDate: expect.any(Number)
+                completedDate: DATE_NOW
               }
             ]
           });
 
           const completedDate = user?.completedChallenges[0]?.completedDate;
-          expect(completedDate).toBeGreaterThanOrEqual(now);
-          expect(completedDate).toBeLessThanOrEqual(now + 1000);
+          expect(completedDate).toEqual(DATE_NOW);
 
           expect(response.body).toStrictEqual({
             alreadyCompleted: false,
@@ -628,6 +635,8 @@ describe('challengeRoutes', () => {
         });
 
         test('POST correctly handles multiple requests', async () => {
+          const updateAt = DATE_NOW + 1000;
+
           const resOriginal = await superPost(
             '/backend-challenge-completed'
           ).send(backendChallengeBody1);
@@ -635,6 +644,9 @@ describe('challengeRoutes', () => {
           await superPost('/backend-challenge-completed').send(
             backendChallengeBody2
           );
+
+          // Mimic the time passed when the second request is made
+          jest.advanceTimersByTime(1000);
 
           const resUpdated = await superPost(
             '/backend-challenge-completed'
@@ -654,23 +666,24 @@ describe('challengeRoutes', () => {
             completedChallenges: [
               {
                 ...backendChallengeBody1,
-                completedDate: expect.any(Number)
+                completedDate: DATE_NOW
               },
               {
                 ...backendChallengeBody2,
-                completedDate: expect.any(Number)
+                completedDate: DATE_NOW
               }
             ],
             progressTimestamps: expectedProgressTimestamps
           });
 
-          expect(resUpdated.body.completedDate).not.toBe(
-            resOriginal.body.completedDate
-          );
+          // The original and updated `completedDate` values don't match because of an existing bug.
+          // Ref: https://github.com/freeCodeCamp/freeCodeCamp/issues/57972
+          expect(resOriginal.body.completedDate).toEqual(DATE_NOW);
+          expect(resUpdated.body.completedDate).toEqual(updateAt);
           expect(resUpdated.body).toStrictEqual({
             alreadyCompleted: true,
             points: 2,
-            completedDate: expect.any(Number)
+            completedDate: updateAt
           });
           expect(resUpdated.statusCode).toBe(200);
         });
@@ -710,12 +723,14 @@ describe('challengeRoutes', () => {
               progressTimestamps: []
             }
           });
+
+          // Some tests in the suite override the system time to mimic time passed.
+          // Restore system time so that other tests are not affected.
+          jest.setSystemTime(DATE_NOW);
         });
 
         // HTML(0), JS(1), Modern(6), Video(11), The Odin Project(15)
         test('POST accepts challenges without files present', async () => {
-          const now = Date.now();
-
           const response = await superPost('/modern-challenge-completed').send(
             HtmlChallengeBody
           );
@@ -728,14 +743,13 @@ describe('challengeRoutes', () => {
             completedChallenges: [
               {
                 id: HtmlChallengeId,
-                completedDate: expect.any(Number)
+                completedDate: DATE_NOW
               }
             ]
           });
 
           const completedDate = user.completedChallenges[0]?.completedDate;
-          expect(completedDate).toBeGreaterThanOrEqual(now);
-          expect(completedDate).toBeLessThanOrEqual(now + 1000);
+          expect(completedDate).toEqual(DATE_NOW);
 
           expect(response.statusCode).toBe(200);
           expect(response.body).toStrictEqual({
@@ -748,8 +762,6 @@ describe('challengeRoutes', () => {
 
         // JS Project(5), Multi-file Cert Project(14)
         test('POST accepts challenges with files present', async () => {
-          const now = Date.now();
-
           const response = await superPost('/modern-challenge-completed').send(
             JsProjectBody
           );
@@ -766,14 +778,13 @@ describe('challengeRoutes', () => {
                 id: JsProjectId,
                 challengeType: JsProjectBody.challengeType,
                 files: [file],
-                completedDate: expect.any(Number)
+                completedDate: DATE_NOW
               }
             ]
           });
 
           const completedDate = user.completedChallenges[0]?.completedDate;
-          expect(completedDate).toBeGreaterThanOrEqual(now);
-          expect(completedDate).toBeLessThanOrEqual(now + 1000);
+          expect(completedDate).toEqual(DATE_NOW);
 
           expect(response.body).toStrictEqual({
             alreadyCompleted: false,
@@ -785,8 +796,6 @@ describe('challengeRoutes', () => {
         });
 
         test('POST accepts challenges with saved solutions', async () => {
-          const now = Date.now();
-
           const response = await superPost('/modern-challenge-completed').send(
             multiFileCertProjectBody
           );
@@ -806,7 +815,7 @@ describe('challengeRoutes', () => {
                 id: multiFileCertProjectId,
                 challengeType: multiFileCertProjectBody.challengeType,
                 files: testFiles,
-                completedDate: expect.any(Number),
+                completedDate: DATE_NOW,
                 isManuallyApproved: false
               }
             ],
@@ -820,8 +829,7 @@ describe('challengeRoutes', () => {
           });
 
           const completedDate = user.completedChallenges[0]?.completedDate;
-          expect(completedDate).toBeGreaterThanOrEqual(now);
-          expect(completedDate).toBeLessThanOrEqual(now + 1000);
+          expect(completedDate).toEqual(DATE_NOW);
 
           expect(response.body).toStrictEqual({
             alreadyCompleted: false,
@@ -839,6 +847,8 @@ describe('challengeRoutes', () => {
         });
 
         test('POST correctly handles multiple requests', async () => {
+          const updateAt = DATE_NOW + 1000;
+
           const resOriginal = await superPost(
             '/modern-challenge-completed'
           ).send(multiFileCertProjectBody);
@@ -846,6 +856,9 @@ describe('challengeRoutes', () => {
           await superPost('/modern-challenge-completed').send(
             HtmlChallengeBody
           );
+
+          // Mimic the time passed when the second request is made
+          jest.advanceTimersByTime(1000);
 
           const resUpdate = await superPost('/modern-challenge-completed').send(
             updatedMultiFileCertProjectBody
@@ -870,39 +883,41 @@ describe('challengeRoutes', () => {
                 id: multiFileCertProjectId,
                 challengeType: updatedMultiFileCertProjectBody.challengeType,
                 files: testFiles,
-                completedDate: expect.any(Number),
+                completedDate: DATE_NOW,
                 isManuallyApproved: false
               },
               {
                 id: HtmlChallengeId,
-                completedDate: expect.any(Number)
+                completedDate: DATE_NOW
               }
             ],
             savedChallenges: [
               {
                 id: multiFileCertProjectId,
-                lastSavedDate: expect.any(Number),
+                lastSavedDate: updateAt,
                 files: updatedMultiFileCertProjectBody.files
               }
             ],
             progressTimestamps: expectedProgressTimestamps
           });
 
-          expect(
-            resUpdate.body.savedChallenges[0].lastSavedDate
-          ).toBeGreaterThan(
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-            resOriginal.body.savedChallenges[0].lastSavedDate
+          // The original and updated `completedDate` values don't match because of an existing bug.
+          // Ref: https://github.com/freeCodeCamp/freeCodeCamp/issues/57972
+          expect(resOriginal.body.savedChallenges[0].lastSavedDate).toEqual(
+            DATE_NOW
+          );
+          expect(resUpdate.body.savedChallenges[0].lastSavedDate).toEqual(
+            updateAt
           );
 
           expect(resUpdate.body).toStrictEqual({
             alreadyCompleted: true,
             points: 2,
-            completedDate: expect.any(Number),
+            completedDate: updateAt,
             savedChallenges: [
               {
                 id: multiFileCertProjectId,
-                lastSavedDate: expect.any(Number),
+                lastSavedDate: updateAt,
                 files: updatedMultiFileCertProjectBody.files
               }
             ]
@@ -1131,6 +1146,7 @@ describe('challengeRoutes', () => {
               }
             });
           }
+
           afterEach(async () => {
             await fastifyTestInstance.prisma.msUsername.deleteMany({
               where: { userId: defaultUserId }
@@ -1202,7 +1218,6 @@ describe('challengeRoutes', () => {
             );
             const msUsername = 'ANRandom';
             await createMSUsernameRecord(msUsername);
-            const now = Date.now();
 
             const res = await superPost('/ms-trophy-challenge-completed').send({
               id: trophyChallengeId
@@ -1220,8 +1235,7 @@ describe('challengeRoutes', () => {
               completedDate
             });
 
-            expect(completedDate).toBeGreaterThan(now);
-            expect(completedDate).toBeLessThan(now + 1000);
+            expect(completedDate).toEqual(DATE_NOW);
             expect(res.statusCode).toBe(200);
 
             expect(user).toMatchObject({
@@ -1229,7 +1243,7 @@ describe('challengeRoutes', () => {
                 {
                   id: trophyChallengeId,
                   solution: solutionUrl,
-                  completedDate: expect.any(Number)
+                  completedDate: DATE_NOW
                 }
               ]
             });
@@ -1526,8 +1540,6 @@ describe('challengeRoutes', () => {
         };
 
         test('POST handles submitting a failing exam', async () => {
-          const now = Date.now();
-
           // Submit exam with 0 correct answers
           const response = await submitExam(examWithZeroCorrect);
 
@@ -1550,11 +1562,11 @@ describe('challengeRoutes', () => {
           expect(completedExams[0]).toEqual({
             id: '647e22d18acb466c97ccbef8',
             challengeType: 17,
-            completedDate: expect.any(Number),
+            completedDate: DATE_NOW,
             examResults: mockResultsZeroCorrect
           });
 
-          expect(completedExams[0]?.completedDate).toBeGreaterThan(now);
+          expect(completedExams[0]?.completedDate).toEqual(DATE_NOW);
           expect(response.body).toMatchObject({
             points: 0,
             alreadyCompleted: false,
@@ -1564,7 +1576,6 @@ describe('challengeRoutes', () => {
         });
 
         test("POST always adds to the user's completedExams", async () => {
-          let now = Date.now();
           // The first exam should be stored in the user's completedExams
           await submitExam(examWithAllCorrect);
 
@@ -1575,10 +1586,8 @@ describe('challengeRoutes', () => {
 
           expect(completedExams).toHaveLength(1);
           expect(completedExams[0]).toEqual(completedExamChallengeAllCorrect);
-          expect(completedExams[0]?.completedDate).toBeGreaterThan(now);
-          expect(completedExams[0]?.completedDate).toBeLessThan(Date.now());
+          expect(completedExams[0]?.completedDate).toEqual(DATE_NOW);
 
-          now = Date.now();
           // the second exam should be added to the exams, not replace the first
           await submitExam(examWithOneCorrect);
 
@@ -1595,13 +1604,11 @@ describe('challengeRoutes', () => {
               completedExamChallengeOneCorrect
             ])
           );
-          expect(completedExams[1]?.completedDate).toBeGreaterThan(now);
-          expect(completedExams[1]?.completedDate).toBeLessThan(Date.now());
+          expect(completedExams[1]?.completedDate).toEqual(DATE_NOW);
         });
 
         test('POST updates user progress if they have not completed the exam before', async () => {
           // Submit exam with 2/3 correct answers
-          const now = Date.now();
           const res = await submitExam(examWithTwoCorrect);
 
           const user = await fastifyTestInstance.prisma.user.findFirstOrThrow({
@@ -1614,9 +1621,7 @@ describe('challengeRoutes', () => {
             ...completedTrophyChallenges,
             completedExamChallengeTwoCorrect
           ]);
-          expect(user.completedChallenges[1]?.completedDate).toBeGreaterThan(
-            now
-          );
+          expect(user.completedChallenges[1]?.completedDate).toEqual(DATE_NOW);
 
           // should add to progressTimestamps
           expect(user.progressTimestamps).toHaveLength(1);
@@ -1739,17 +1744,6 @@ describe('challengeRoutes', () => {
       });
 
       describe('handling', () => {
-        beforeAll(() => {
-          jest.useFakeTimers({
-            doNotFake: ['nextTick']
-          });
-          jest.setSystemTime(DATE_NOW);
-        });
-
-        afterAll(() => {
-          jest.useRealTimers();
-        });
-
         afterEach(async () => {
           await fastifyTestInstance.prisma.user.updateMany({
             where: { email: 'foo@bar.com' },
