@@ -105,7 +105,8 @@
     "update-card": "Update your card",
     "donate-now": "Donate Now",
     "confirm-amount": "Confirm amount",
-    "play-scene": "Press Play",
+    "play": "Play Video",
+    "pause": "Pause Video",
     "closed-caption": "Closed caption",
     "share-on-x": "Share on X",
     "share-on-bluesky": "Share on BlueSky",
@@ -1171,7 +1172,7 @@
     "focus-instructions-panel": "Focus Instructions Panel",
     "navigate-previous": "Navigate To Previous Exercise",
     "navigate-next": "Navigate To Next Exercise",
-    "play-scene": "Play Scene"
+    "play-video": "Play Video"
   },
   "signout": {
     "heading": "Sign out of your account",

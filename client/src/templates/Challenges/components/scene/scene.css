@@ -4,60 +4,24 @@
   color: var(--gray-00);
 }
 
-.scene-start-screen {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  max-height: 100%;
-  background-color: rgba(10, 10, 35, 0.5);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  color: var(--gray-00);
-}
-
-.scene-start-btn,
-.scene-start-btn:hover,
-.scene-start-btn:focus,
-.scene-start-btn:active {
-  background-color: rgba(0, 0, 0, 0);
-  border: none;
-  scale: 0.75;
-}
-
-.scene-a11y-btn {
-  position: absolute;
-  right: 5px;
-  bottom: 5px;
-  text-align: right;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.scene-play-btn img {
-  transform: translate(5px, 10px);
-}
-
-.scene-a11y-btn svg {
-  width: calc(50px + 3vw);
-  height: calc(50px + 3vw);
-}
-
 .scene-dialogue-wrap {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
   position: absolute;
   bottom: 0;
-  padding: calc(5px + 0.25vw) calc(5px + 4vw);
-  background: rgba(10, 10, 35, 0.9);
-  font-size: calc(0.25vw + 0.75rem);
   width: 100%;
+  padding: 5px calc(5px + 3.5vw);
+  font-size: calc(0.25vw + 0.75rem);
   min-height: calc(35px + 1vw + 2rem);
+  flex: 0 0 80%;
+  background: var(--primary-background-translucent);
+  color: var(--primary-color);
 }
 
 .scene-dialogue-label {
-  color: var(--blue-light);
+  color: var(--highlight-color);
+  font-weight: bold;
 }
 
 .scene-dialogue-align-left {
@@ -74,5 +38,34 @@
 
 .scene-dialogue-text {
   font-size: calc(0.25vw + 1rem);
-  padding: 5px 10px;
+  padding: 0 10px;
+}
+
+.scene-controls {
+  display: flex;
+  justify-content: space-between;
+  align-self: center;
+  background: var(--primary-background);
+  padding: 0 10px;
+  min-height: 60px;
+  max-height: 60px;
+}
+
+.scene-btn,
+.scene-btn:hover,
+.scene-btn:focus,
+.scene-btn:active {
+  color: var(--tertiary-color);
+  background: rgba(0, 0, 0, 0);
+  border: none;
+  scale: 0.75;
+}
+
+.scene-play-btn {
+  background: rgba(0, 0, 0, 0);
+}
+
+.scene-a11y-btn svg {
+  width: 60px;
+  height: 60px;
 }

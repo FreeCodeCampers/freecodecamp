@@ -35,7 +35,7 @@ export function Character({
   const [mouthIsOpen, setMouthIsOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const onNotify = (eventType: 'play' | 'stop') => {
+  const onNotify = (eventType: 'play' | 'pause' | 'stop') => {
     if (eventType === 'play') {
       setIsPlaying(true);
     } else {

@@ -1,6 +1,7 @@
 :root {
   --theme-color: #0a0a23;
   --yellow-gold: #ffbf00;
+  --gray-00-translucent: rgba(255, 255, 255, 0.85);
   --gray-00: #ffffff;
   --gray-05: #f5f6f7;
   --gray-10: #dfdfe2;
@@ -10,6 +11,7 @@
   --gray-80: #2a2a40;
   --gray-85: #1b1b32;
   --gray-90: #0a0a23;
+  --gray-90-translucent: rgba(10, 10, 35, 0.85);
   --purple-light: #dbb8ff;
   --purple-dark: #5a01a7;
   --yellow-light: #ffc300;
@@ -43,6 +45,7 @@
 }
 
 .dark-palette {
+  --primary-color-translucent: var(--gray-00-translucent);
   --primary-color: var(--gray-00);
   --secondary-color: var(--gray-05);
   --tertiary-color: var(--gray-10);
@@ -51,6 +54,7 @@
   --tertiary-background: var(--gray-80);
   --secondary-background: var(--gray-85);
   --primary-background: var(--gray-90);
+  --primary-background-translucent: var(--gray-90-translucent);
   --highlight-color: var(--blue-light);
   --highlight-background: var(--blue-dark);
   --selection-color: var(--blue-light-translucent);
@@ -67,6 +71,7 @@
 }
 
 .light-palette {
+  --primary-color-translucent: var(--gray-90-translucent);
   --primary-color: var(--gray-90);
   --secondary-color: var(--gray-85);
   --tertiary-color: var(--gray-80);
@@ -75,6 +80,7 @@
   --tertiary-background: var(--gray-10);
   --secondary-background: var(--gray-05);
   --primary-background: var(--gray-00);
+  --primary-background-translucent: var(--gray-00-translucent);
   --highlight-color: var(--blue-dark);
   --highlight-background: var(--blue-light);
   --selection-color: var(--blue-dark-translucent);

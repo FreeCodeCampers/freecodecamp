@@ -1,4 +1,4 @@
-type Observer = (eventType: 'play' | 'stop') => void;
+type Observer = (eventType: 'play' | 'pause' | 'stop') => void;
 
 export class SceneSubject {
   #observers: Observer[];
@@ -16,7 +16,7 @@ export class SceneSubject {
 
   // For now, we don't need to pass any data to the observers, so notify()
   // doesn't take any arguments.
-  notify(eventType: 'play' | 'stop') {
+  notify(eventType: 'play' | 'pause' | 'stop') {
     this.#observers.forEach(observer => observer(eventType));
   }
 }

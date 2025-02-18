@@ -67,7 +67,7 @@ function ShortcutsModal({
               <td>CTRL/Command + Enter</td>
             </tr>
             <tr>
-              <td>{t('shortcuts.play-scene')}</td>
+              <td>{t('shortcuts.play-video')}</td>
               <td>CTRL + Space</td>
             </tr>
             <tr>
