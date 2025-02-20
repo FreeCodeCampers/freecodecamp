@@ -7,64 +7,35 @@ import SupporterBadgeEmblem from '../../../assets/icons/supporter-badge-emblem';
 import TopContibutorBadgeEmblem from '../../../assets/icons/top-contributor-badge-emblem';
 import Bio from './bio';
 
-export type CamperProps = Pick<
-  User,
-  | 'about'
-  | 'githubProfile'
-  | 'isDonating'
-  | 'linkedin'
-  | 'username'
-  | 'twitter'
-  | 'yearsTopContributor'
-  | 'location'
-  | 'website'
-  | 'picture'
-  | 'name'
-  | 'joinDate'
-> & {
+export type CamperProps = {
+  user: User;
   setIsEditing: (value: boolean) => void;
   isSessionUser: boolean;
 };
 
 function Camper({
-  name,
-  username,
-  location,
-  picture,
-  about,
-  yearsTopContributor,
-  githubProfile,
-  isDonating,
-  joinDate,
-  linkedin,
-  twitter,
-  website,
+  user,
   isSessionUser,
   setIsEditing
 }: CamperProps): JSX.Element {
+  const {
+    isDonating,
+    yearsTopContributor,
+    profileUI: { showDonation }
+  } = user;
+
   const { t } = useTranslation();
   const isTopContributor = yearsTopContributor.filter(Boolean).length > 0;
   return (
     <>
       <div className='bio-container'>
         <Bio
-          joinDate={joinDate}
-          location={location}
-          username={username}
-          name={name}
-          about={about}
-          githubProfile={githubProfile}
-          linkedin={linkedin}
-          twitter={twitter}
-          website={website}
-          isDonating={isDonating}
-          yearsTopContributor={yearsTopContributor}
-          picture={picture}
+          user={user}
           setIsEditing={setIsEditing}
           isSessionUser={isSessionUser}
         />
       </div>
-      {(isDonating || isTopContributor) && (
+      {((isDonating && showDonation) || isTopContributor) && (
         <FullWidthRow>
           <section className='card'>
             <h2>{t('profile.badges')}</h2>

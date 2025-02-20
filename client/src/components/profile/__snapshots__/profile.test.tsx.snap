@@ -187,17 +187,12 @@ exports[`<Profile/> renders correctly 1`] = `
                 string
               </h1>
             </div>
-            
             <div
               class="h-[20px]"
             />
-            
             <div
               class="profile-meta-container"
-            >
-              
-              
-            </div>
+            />
             <div
               class="mx-[-15px] "
             >

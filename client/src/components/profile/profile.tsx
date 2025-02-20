@@ -8,7 +8,7 @@ import Portfolio from './components/portfolio';
 
 import UsernameSettings from './components/username';
 import About from './components/about';
-import Internet, { Socials } from './components/internet';
+import Internet from './components/internet';
 import { User } from './../../redux/prop-types';
 import Timeline from './components/time-line';
 import Camper from './components/camper';
@@ -21,9 +21,6 @@ import { PortfolioProjects } from './components/portfolio-projects';
 interface ProfileProps {
   isSessionUser: boolean;
   user: User;
-  updateMyPortfolio: () => void;
-  updateMySocials: (formValues: Socials) => void;
-  submitNewAbout: () => void;
 }
 
 interface EditModalProps {
@@ -31,9 +28,6 @@ interface EditModalProps {
   isEditing: boolean;
   isSessionUser: boolean;
   setIsEditing: (isEditing: boolean) => void;
-  updateMySocials: (formValues: Socials) => void;
-  updateMyPortfolio: () => void;
-  submitNewAbout: () => void;
 }
 interface MessageProps {
   isSessionUser: boolean;
@@ -50,27 +44,8 @@ const UserMessage = ({ t }: Pick<MessageProps, 't'>) => {
   );
 };
 
-const EditModal = ({
-  user,
-  isEditing,
-  isSessionUser,
-  setIsEditing,
-  updateMyPortfolio,
-  updateMySocials,
-  submitNewAbout
-}: EditModalProps) => {
-  const {
-    portfolio,
-    username,
-    about,
-    location,
-    name,
-    picture,
-    githubProfile,
-    linkedin,
-    twitter,
-    website
-  } = user;
+const EditModal = ({ user, isEditing, setIsEditing }: EditModalProps) => {
+  const { portfolio, username } = user;
   const { t } = useTranslation();
   return (
     <Modal onClose={() => setIsEditing(false)} open={isEditing} size='large'>
@@ -78,31 +53,11 @@ const EditModal = ({
       <Modal.Body alignment='left'>
         <UsernameSettings username={username} setIsEditing={setIsEditing} />
         <Spacer size='m' />
-        <About
-          about={about}
-          location={location}
-          name={name}
-          picture={picture}
-          username={username}
-          submitNewAbout={submitNewAbout}
-          setIsEditing={setIsEditing}
-          isSessionUser={isSessionUser}
-        />
+        <About user={user} setIsEditing={setIsEditing} />
         <Spacer size='m' />
-        <Internet
-          githubProfile={githubProfile}
-          linkedin={linkedin}
-          twitter={twitter}
-          updateSocials={updateMySocials}
-          setIsEditing={setIsEditing}
-          website={website}
-        />
+        <Internet user={user} setIsEditing={setIsEditing} />
         <Spacer size='m' />
-        <Portfolio
-          portfolio={portfolio}
-          updatePortfolio={updateMyPortfolio}
-          setIsEditing={setIsEditing}
-        />
+        <Portfolio portfolio={portfolio} setIsEditing={setIsEditing} />
       </Modal.Body>
     </Modal>
   );
@@ -129,43 +84,22 @@ const Message = ({ isSessionUser, t, username }: MessageProps) => {
   return <VisitorMessage t={t} username={username} />;
 };
 
-function UserProfile({
-  user,
-  isSessionUser,
-  updateMyPortfolio,
-  updateMySocials,
-  submitNewAbout
-}: ProfileProps): JSX.Element {
+function UserProfile({ user, isSessionUser }: ProfileProps): JSX.Element {
   const [isEditing, setIsEditing] = useState(false);
 
   const {
     profileUI: {
-      showAbout,
       showCerts,
-      showDonation,
       showHeatMap,
-      showLocation,
-      showName,
       showPoints,
       showPortfolio,
       showTimeLine
     },
     calendar,
     completedChallenges,
-    githubProfile,
-    linkedin,
-    twitter,
-    website,
-    name,
     username,
-    joinDate,
-    location,
     points,
-    picture,
-    portfolio,
-    about,
-    yearsTopContributor,
-    isDonating
+    portfolio
   } = user;
 
   return (
@@ -176,24 +110,10 @@ function UserProfile({
           isEditing={isEditing}
           isSessionUser={isSessionUser}
           setIsEditing={setIsEditing}
-          updateMyPortfolio={updateMyPortfolio}
-          updateMySocials={updateMySocials}
-          submitNewAbout={submitNewAbout}
         />
       )}
       <Camper
-        about={showAbout ? about : ''}
-        githubProfile={githubProfile}
-        isDonating={showDonation ? isDonating : false}
-        joinDate={showAbout ? joinDate : ''}
-        linkedin={linkedin}
-        location={showLocation ? location : ''}
-        name={showName ? name : ''}
-        picture={picture}
-        twitter={twitter}
-        username={username}
-        website={website}
-        yearsTopContributor={yearsTopContributor}
+        user={user}
         isSessionUser={isSessionUser}
         setIsEditing={setIsEditing}
       />
@@ -211,13 +131,7 @@ function UserProfile({
   );
 }
 
-function Profile({
-  user,
-  isSessionUser,
-  updateMyPortfolio,
-  updateMySocials,
-  submitNewAbout
-}: ProfileProps): JSX.Element {
+function Profile({ user, isSessionUser }: ProfileProps): JSX.Element {
   const { t } = useTranslation();
   const {
     profileUI: { isLocked },
@@ -238,13 +152,7 @@ function Profile({
           <Message username={username} isSessionUser={isSessionUser} t={t} />
         )}
         {showUserProfile && (
-          <UserProfile
-            user={user}
-            isSessionUser={isSessionUser}
-            updateMyPortfolio={updateMyPortfolio}
-            updateMySocials={updateMySocials}
-            submitNewAbout={submitNewAbout}
-          />
+          <UserProfile user={user} isSessionUser={isSessionUser} />
         )}
         {!isSessionUser && (
           <Row className='text-center'>

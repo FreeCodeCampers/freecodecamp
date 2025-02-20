@@ -13,6 +13,7 @@ import {
 } from '@freecodecamp/ui';
 import { withTranslation } from 'react-i18next';
 import isURL from 'validator/lib/isURL';
+import { connect } from 'react-redux';
 import { PortfolioProjectData } from '../../../redux/prop-types';
 
 import { hasProtocolRE } from '../../../utils';
@@ -20,12 +21,13 @@ import { hasProtocolRE } from '../../../utils';
 import { FullWidthRow } from '../../helpers';
 import BlockSaveButton from '../../helpers/form/block-save-button';
 import SectionHeader from '../../settings/section-header';
+import { updateMyPortfolio } from '../../../redux/settings/actions';
 
 type PortfolioProps = {
   picture?: string;
   portfolio: PortfolioProjectData[];
   t: TFunction;
-  updatePortfolio: (obj: { portfolio: PortfolioProjectData[] }) => void;
+  updateMyPortfolio: (obj: { portfolio: PortfolioProjectData[] }) => void;
   username?: string;
   setIsEditing: (isEditing: boolean) => void;
 };
@@ -34,6 +36,12 @@ interface ProfileValidation {
   state: FormGroupProps['validationState'];
   message: string;
 }
+
+const mapDispatchToProps: {
+  updateMyPortfolio: () => void;
+} = {
+  updateMyPortfolio
+};
 
 function createEmptyPortfolioItem(): PortfolioProjectData {
   return {
@@ -54,7 +62,7 @@ const PortfolioSettings = (props: PortfolioProps) => {
     t,
     portfolio: initialPortfolio = [],
     setIsEditing,
-    updatePortfolio
+    updateMyPortfolio
   } = props;
   const [portfolio, setPortfolio] = useState(initialPortfolio);
   const [unsavedItemId, setUnsavedItemId] = useState<string | null>(null);
@@ -105,7 +113,7 @@ const PortfolioSettings = (props: PortfolioProps) => {
       setUnsavedItemId(null);
     }
     const portfolioToUpdate = updatedPortfolio || portfolio;
-    updatePortfolio({ portfolio: portfolioToUpdate });
+    updateMyPortfolio({ portfolio: portfolioToUpdate });
     setIsEditing(false);
   };
 
@@ -384,4 +392,6 @@ const PortfolioSettings = (props: PortfolioProps) => {
 
 PortfolioSettings.displayName = 'PortfolioSettings';
 
-export default withTranslation()(PortfolioSettings);
+export default withTranslation()(
+  connect(null, mapDispatchToProps)(PortfolioSettings)
+);

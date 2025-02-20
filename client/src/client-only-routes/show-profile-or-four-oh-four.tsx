@@ -7,12 +7,6 @@ import FourOhFour from '../components/FourOhFour';
 import Loader from '../components/helpers/loader';
 import Profile from '../components/profile/profile';
 import { fetchProfileForUser } from '../redux/actions';
-
-import {
-  submitNewAbout,
-  updateMyPortfolio,
-  updateMySocials
-} from '../redux/settings/actions';
 import {
   usernameSelector,
   userByNameSelector,
@@ -63,23 +57,14 @@ const makeMapStateToProps =
 
 const mapDispatchToProps: {
   fetchProfileForUser: ShowProfileOrFourOhFourProps['fetchProfileForUser'];
-  submitNewAbout: () => void;
-  updateMyPortfolio: () => void;
-  updateMySocials: (formValues: Socials) => void;
 } = {
-  fetchProfileForUser,
-  submitNewAbout,
-  updateMyPortfolio,
-  updateMySocials
+  fetchProfileForUser
 };
 
 function ShowProfileOrFourOhFour({
   requestedUser,
   maybeUser,
   fetchProfileForUser,
-  submitNewAbout,
-  updateMyPortfolio,
-  updateMySocials,
   isSessionUser,
   showLoading
 }: ShowProfileOrFourOhFourProps) {
@@ -104,13 +89,7 @@ function ShowProfileOrFourOhFour({
       <FourOhFour />
     )
   ) : (
-    <Profile
-      isSessionUser={isSessionUser}
-      user={requestedUser}
-      submitNewAbout={submitNewAbout}
-      updateMyPortfolio={updateMyPortfolio}
-      updateMySocials={updateMySocials}
-    />
+    <Profile isSessionUser={isSessionUser} user={requestedUser} />
   );
 }
 
