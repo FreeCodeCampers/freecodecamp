@@ -11,7 +11,8 @@ const {
   publicUser,
   fullyCertifiedUser,
   userIds,
-  almostFullyCertifiedUser
+  almostFullyCertifiedUser,
+  unclaimedUser
 } = require('./user-data');
 
 const options = {
@@ -20,7 +21,8 @@ const options = {
   'set-false': { type: 'string', multiple: true },
   'seed-trophy-challenges': { type: 'boolean' },
   'certified-user': { type: 'boolean' },
-  'almost-certified-user': { type: 'boolean' }
+  'almost-certified-user': { type: 'boolean' },
+  'unclaimed-user': { type: 'boolean' }
 };
 
 const { values: argValues } = parseArgs({ options });
@@ -127,6 +129,8 @@ const run = async () => {
     await user.insertOne(fullyCertifiedUser);
   } else if (argValues['almost-certified-user']) {
     await user.insertOne(almostFullyCertifiedUser);
+  } else if (argValues['unclaimed-user']) {
+    await user.insertOne(unclaimedUser);
   } else {
     await user.insertOne(demoUser);
   }

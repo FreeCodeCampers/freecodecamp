@@ -1,7 +1,42 @@
+import { execSync } from 'child_process';
 import { test, expect, Page } from '@playwright/test';
-
 import translations from '../client/i18n/locales/english/translations.json';
 import { alertToBeVisible } from './utils/alerts';
+import {
+  deleteAllEmails,
+  getAllEmails,
+  getFirstEmail,
+  getSubject
+} from './utils/mailhog';
+
+test.describe('Claim a certification - almost certified user', () => {
+  test.beforeEach(async () => {
+    await deleteAllEmails();
+    execSync('node ./tools/scripts/seed/seed-demo-user --unclaimed-user');
+  });
+
+  test.afterAll(() => {
+    execSync('node ./tools/scripts/seed/seed-demo-user --certified-user');
+  });
+  test.use({ storageState: 'playwright/.auth/certified-user.json' });
+
+  test('User receives a congratulations email on completing all certs', async ({
+    page
+  }) => {
+    await page.goto('/settings#cert-front-end-development-libraries');
+    await page
+      .getByRole('button', { name: 'Claim Certification Front End' })
+      .click();
+    // verify that an email is sent
+    await expect(async () => {
+      const emails = await getAllEmails();
+      expect(emails.items).toHaveLength(1);
+      expect(getSubject(getFirstEmail(emails))).toBe(
+        'Congratulations on completing all of the freeCodeCamp certifications!'
+      );
+    }).toPass();
+  });
+});
 
 test.describe('Certification page - Non Microsoft', () => {
   test.beforeEach(async ({ page }) => {
