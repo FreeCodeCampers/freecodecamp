@@ -1,8 +1,7 @@
 ---
 id: 63ee35370d8d4841c3a7091e
-videoId: LGQuIIv2RVA
 title: CSS Foundations Lesson E
-challengeType: 15
+challengeType: 19
 dashedName: css-foundations-lesson-e
 ---
 # --description--
