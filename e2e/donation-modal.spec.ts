@@ -313,6 +313,76 @@ test.describe('Donation modal appearance logic - Certified user claiming a new b
     await completeFrontEndCert(page, 1);
     await expect(donationModal).toBeHidden();
   });
+
+  test("should not appear if the user has completed a new FSD block, but the block's module is not completed", async ({
+    page
+  }) => {
+    await page.goto(
+      '/learn/full-stack-developer/review-basic-html/basic-html-review'
+    );
+
+    await page.getByRole('checkbox', { name: /Review/ }).click();
+    await page.getByRole('button', { name: 'Submit', exact: true }).click();
+    await page.getByRole('button', { name: /Submit and go/ }).click();
+
+    const donationModal = page
+      .getByRole('dialog')
+      .filter({ hasText: 'Become a Supporter' });
+    await expect(donationModal).toBeHidden();
+  });
+});
+
+test.describe('Donation modal appearance logic - Certified user claiming a new module', () => {
+  test.use({ storageState: 'playwright/.auth/certified-user.json' });
+  execSync('node ./tools/scripts/seed/seed-demo-user --almost-certified-user');
+
+  test('should appear if the user has just completed a new module', async ({
+    page
+  }) => {
+    test.setTimeout(40000);
+
+    // Go to the last lecture of the Welcome to freeCodeCamp block.
+    // This lecture is not added to the seed data, so it is not completed.
+    // By completing this lecture, we claim both the block and its module.
+    await page.goto(
+      '/learn/full-stack-developer/lecture-welcome-to-freecodecamp/how-can-you-build-effective-learning-habits-and-work-smarter'
+    );
+
+    // Wait for the page content to render
+    // TODO: Change the selector to `getByRole('radiogroup')` when we have migrated the MCQ component to fcc/ui
+    await expect(page.locator("div[class='video-quiz-options']")).toHaveCount(
+      3
+    );
+
+    const radioGroups = await page
+      .locator("div[class='video-quiz-options']")
+      .all();
+
+    await radioGroups[0].getByRole('radio').nth(2).click({ force: true });
+    await radioGroups[1].getByRole('radio').nth(2).click({ force: true });
+    await radioGroups[2].getByRole('radio').nth(3).click({ force: true });
+
+    await page.getByRole('button', { name: /Check your answer/ }).click();
+    await page.getByRole('button', { name: /Submit and go/ }).click();
+
+    const donationModal = page
+      .getByRole('dialog')
+      .filter({ hasText: 'Become a Supporter' });
+    await expect(donationModal).toBeVisible();
+    await expect(
+      donationModal.getByText(
+        'This is a 20 second animated advertisement to encourage campers to become supporters of freeCodeCamp. The animation starts with a teddy bear who becomes a supporter. As a result, distracting pop-ups disappear and the bear gets to complete all of its goals. Then, it graduates and becomes an education super hero helping people around the world.'
+      )
+    ).toBeVisible();
+
+    // Second part of the modal.
+    // Use `slowExpect` as we need to wait 20s for this part to show up.
+    await slowExpect(
+      donationModal.getByText(
+        'Nicely done. You just completed Getting Started with freeCodeCamp.'
+      )
+    ).toBeVisible();
+  });
 });
 
 test.describe('Donation modal appearance logic - Certified user', () => {

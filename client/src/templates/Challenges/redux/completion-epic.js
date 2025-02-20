@@ -21,7 +21,7 @@ import {
 } from '../../../../../shared/config/challenge-types';
 import { actionTypes as submitActionTypes } from '../../../redux/action-types';
 import {
-  allowBlockDonationRequests,
+  allowSectionDonationRequests,
   setIsProcessing,
   setRenderStartTime,
   submitComplete,
@@ -32,6 +32,7 @@ import { isSignedInSelector, userSelector } from '../../../redux/selectors';
 import { mapFilesToChallengeFiles } from '../../../utils/ajax';
 import { standardizeRequestBody } from '../../../utils/challenge-request-helpers';
 import postUpdate$ from '../utils/post-update';
+import { SuperBlocks } from '../../../../../shared/config/curriculum';
 import { actionTypes } from './action-types';
 import {
   closeModal,
@@ -46,7 +47,8 @@ import {
   challengeTestsSelector,
   userCompletedExamSelector,
   projectFormValuesSelector,
-  isBlockNewlyCompletedSelector
+  isBlockNewlyCompletedSelector,
+  isModuleNewlyCompletedSelector
 } from './selectors';
 
 function postChallenge(update) {
@@ -224,6 +226,7 @@ export default function completionEpic(action$, state$) {
         challengeType,
         superBlock,
         block,
+        module,
         blockHashSlug
       } = challengeMetaSelector(state);
       // Default to submitChallengeComplete since we do not want the user to
@@ -247,9 +250,20 @@ export default function completionEpic(action$, state$) {
         ? blockHashSlug
         : nextChallengePath;
 
-      const canAllowDonationRequest = (state, action) =>
-        isBlockNewlyCompletedSelector(state) &&
-        action.type === submitActionTypes.submitComplete;
+      const canAllowDonationRequest = (state, action) => {
+        if (action.type === submitActionTypes.submitComplete) {
+          if (
+            (superBlock !== SuperBlocks.FullStackDeveloper &&
+              isBlockNewlyCompletedSelector(state)) ||
+            (superBlock === SuperBlocks.FullStackDeveloper &&
+              isModuleNewlyCompletedSelector(state))
+          ) {
+            return true;
+          }
+        }
+
+        return false;
+      };
 
       return submitter(type, state).pipe(
         concat(
@@ -257,7 +271,7 @@ export default function completionEpic(action$, state$) {
         ),
         mergeMap(x =>
           canAllowDonationRequest(state, x)
-            ? of(x, allowBlockDonationRequests({ superBlock, block }))
+            ? of(x, allowSectionDonationRequests({ superBlock, block, module }))
             : of(x)
         ),
         mergeMap(x => of(x, setRenderStartTime(Date.now()))),

@@ -3,7 +3,8 @@ import { challengeTypes } from '../../../../../shared/config/challenge-types';
 import {
   completedChallengesSelector,
   allChallengesInfoSelector,
-  isSignedInSelector
+  isSignedInSelector,
+  completionStateSelector
 } from '../../../redux/selectors';
 import {
   getCurrentBlockIds,
@@ -149,6 +150,27 @@ export const isBlockNewlyCompletedSelector = state => {
   const completedChallengesIds = completedChallengesIdsSelector(state);
   const { id } = challengeMetaSelector(state);
   return completedPercentage === 100 && !completedChallengesIds.includes(id);
+};
+
+export const isModuleNewlyCompletedSelector = state => {
+  const isBlockNewlyCompleted = isBlockNewlyCompletedSelector(state);
+  const { chapter, module, block } = challengeMetaSelector(state);
+
+  if (!isBlockNewlyCompleted || !chapter || !module) return;
+
+  const completionState = completionStateSelector(state);
+
+  const incompleteBlocksInModule = completionState
+    .find(({ name }) => name === chapter)
+    ?.modules.find(({ name }) => name === module)
+    ?.blocks.filter(({ isCompleted }) => !isCompleted);
+
+  // The module is completed if the newly completed block
+  // is the last block that has `isCompleted === false`.
+  return (
+    incompleteBlocksInModule?.length === 1 &&
+    incompleteBlocksInModule.some(({ name }) => name === block)
+  );
 };
 
 export const attemptsSelector = state => state[ns].attempts;

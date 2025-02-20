@@ -24,6 +24,7 @@ import { createMsUsernameSaga } from './ms-username-saga';
 import { createSurveySaga } from './survey-saga';
 import { createSessionCompletedChallengesSaga } from './session-completed-challenges';
 import { createThemeSaga } from './theme-saga';
+import { createChallengesInfoSaga } from './challenges-info-saga';
 
 const defaultFetchState = {
   pending: true,
@@ -53,6 +54,7 @@ const initialState = {
   appUsername: '',
   isRandomCompletionThreshold: false,
   recentlyClaimedBlock: null,
+  recentlyClaimedModule: null,
   currentChallengeId: store.get(CURRENT_CHALLENGE_KEY),
   examInProgress: false,
   isProcessing: false,
@@ -99,7 +101,8 @@ export const sagas = [
   ...createSaveChallengeSaga(actionTypes),
   ...createMsUsernameSaga(actionTypes),
   ...createSurveySaga(actionTypes),
-  ...createSessionCompletedChallengesSaga(actionTypes)
+  ...createSessionCompletedChallengesSaga(actionTypes),
+  ...createChallengesInfoSaga(actionTypes)
 ];
 
 function spreadThePayloadOnUser(state, payload) {
@@ -138,10 +141,17 @@ export const reducer = handleActions(
         }
       };
     },
-    [actionTypes.allowBlockDonationRequests]: (state, { payload }) => {
+    [actionTypes.allowSectionDonationRequests]: (state, { payload }) => {
       return {
         ...state,
-        recentlyClaimedBlock: payload
+        recentlyClaimedBlock: {
+          block: payload.block,
+          superBlock: payload.superBlock
+        },
+        recentlyClaimedModule: {
+          module: payload.module,
+          superBlock: payload.superBlock
+        }
       };
     },
     [actionTypes.setRenderStartTime]: (state, { payload }) => {
@@ -189,10 +199,19 @@ export const reducer = handleActions(
       ...state,
       donationFormState: { ...defaultDonationFormState, error: payload }
     }),
-    [actionTypes.updateAllChallengesInfo]: (state, { payload }) => ({
-      ...state,
-      allChallengesInfo: { ...payload }
-    }),
+    [actionTypes.updateAllChallengesInfoWithCompletionState]: (
+      state,
+      { payload }
+    ) => {
+      return {
+        ...state,
+        allChallengesInfo: {
+          challengeNodes: payload.challengeNodes,
+          certificateNodes: payload.certificateNodes
+        },
+        completionState: payload.completionState
+      };
+    },
     [actionTypes.fetchUser]: state => ({
       ...state,
       userFetchState: { ...defaultFetchState }
@@ -277,9 +296,10 @@ export const reducer = handleActions(
       ...state,
       showDonationModal: true
     }),
-    [actionTypes.preventBlockDonationRequests]: state => ({
+    [actionTypes.preventSectionDonationRequests]: state => ({
       ...state,
-      recentlyClaimedBlock: null
+      recentlyClaimedBlock: null,
+      recentlyClaimedModule: null
     }),
     [actionTypes.setIsRandomCompletionThreshold]: (state, { payload }) => ({
       ...state,

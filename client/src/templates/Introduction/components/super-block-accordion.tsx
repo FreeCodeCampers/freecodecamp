@@ -47,7 +47,7 @@ interface Challenge {
   superBlock: SuperBlocks;
 }
 
-interface SuperBlockTreeViewProps {
+interface SuperBlockAccordionPropsViewProps {
   challenges: Challenge[];
   superBlock: SuperBlocks;
   chosenBlock: string;
@@ -222,7 +222,7 @@ export const SuperBlockAccordion = ({
   superBlock,
   chosenBlock,
   completedChallengeIds
-}: SuperBlockTreeViewProps) => {
+}: SuperBlockAccordionPropsViewProps) => {
   const { t } = useTranslation();
   const { allChapters } = useMemo(() => {
     const populateBlocks = (blocks: { dashedName: string }[]) =>

@@ -10,21 +10,30 @@ import { useFeature } from '@growthbook/growthbook-react';
 import { closeDonationModal } from '../../redux/actions';
 import {
   isDonationModalOpenSelector,
-  recentlyClaimedBlockSelector
+  recentlyClaimedBlockSelector,
+  recentlyClaimedModuleSelector
 } from '../../redux/selectors';
+import { SuperBlocks } from '../../../../shared/config/curriculum';
 import { isLocationSuperBlock } from '../../utils/path-parsers';
 import { playTone } from '../../utils/tone';
 import callGA from '../../analytics/call-ga';
 import DonationModalBody from './donation-modal-body';
 
-type RecentlyClaimedBlock = null | { block: string; superBlock: string };
+type RecentlyClaimedBlock = null | { block: string; superBlock: SuperBlocks };
+type RecentlyClaimedModule = null | { module: string; superBlock: SuperBlocks };
 
 const mapStateToProps = createSelector(
   isDonationModalOpenSelector,
   recentlyClaimedBlockSelector,
-  (show: boolean, recentlyClaimedBlock: RecentlyClaimedBlock) => ({
+  recentlyClaimedModuleSelector,
+  (
+    show: boolean,
+    recentlyClaimedBlock: RecentlyClaimedBlock,
+    recentlyClaimedModule: RecentlyClaimedModule
+  ) => ({
     show,
-    recentlyClaimedBlock
+    recentlyClaimedBlock,
+    recentlyClaimedModule
   })
 );
 
@@ -36,6 +45,7 @@ type DonateModalProps = {
   closeDonationModal: typeof closeDonationModal;
   location?: WindowLocation;
   recentlyClaimedBlock: RecentlyClaimedBlock;
+  recentlyClaimedModule: RecentlyClaimedModule;
   show: boolean;
 };
 
@@ -43,7 +53,8 @@ function DonateModal({
   show,
   closeDonationModal,
   location,
-  recentlyClaimedBlock
+  recentlyClaimedBlock,
+  recentlyClaimedModule
 }: DonateModalProps): JSX.Element {
   const [canClose, setCanClose] = useState(false);
   const isA11yFeatureEnabled = useFeature('a11y-donation-modal').on;
@@ -77,6 +88,7 @@ function DonateModal({
       <DonationModalBody
         closeDonationModal={closeDonationModal}
         recentlyClaimedBlock={recentlyClaimedBlock}
+        recentlyClaimedModule={recentlyClaimedModule}
         setCanClose={setCanClose}
       />
     </Modal>

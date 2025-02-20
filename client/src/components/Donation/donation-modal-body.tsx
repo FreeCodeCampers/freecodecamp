@@ -3,7 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { useFeature } from '@growthbook/growthbook-react';
 import { Col, Row, Modal, Spacer } from '@freecodecamp/ui';
 import { closeDonationModal } from '../../redux/actions';
-import { PaymentContext } from '../../../../shared/config/donation-settings'; //
+import { PaymentContext } from '../../../../shared/config/donation-settings';
+import { SuperBlocks } from '../../../../shared/config/curriculum';
 import donationAnimation from '../../assets/images/donation-bear-animation.svg';
 import donationAnimationB from '../../assets/images/new-bear-animation.svg';
 import supporterBear from '../../assets/images/supporter-bear.svg';
@@ -11,12 +12,14 @@ import callGA from '../../analytics/call-ga';
 import MultiTierDonationForm from './multi-tier-donation-form';
 import { ModalBenefitList } from './donation-text-components';
 
-type RecentlyClaimedBlock = null | { block: string; superBlock: string };
+type RecentlyClaimedBlock = null | { block: string; superBlock: SuperBlocks };
+type RecentlyClaimedModule = null | { module: string; superBlock: SuperBlocks };
 
 type DonationModalBodyProps = {
   activeDonors?: number;
   closeDonationModal: typeof closeDonationModal;
   recentlyClaimedBlock: RecentlyClaimedBlock;
+  recentlyClaimedModule: RecentlyClaimedModule;
   setCanClose: (canClose: boolean) => void;
 };
 
@@ -33,11 +36,13 @@ const Illustration = () => {
 
 function ModalHeader({
   recentlyClaimedBlock,
+  recentlyClaimedModule,
   showHeaderAndFooter,
   donationAttempted,
   showForm
 }: {
   recentlyClaimedBlock: RecentlyClaimedBlock;
+  recentlyClaimedModule: RecentlyClaimedModule;
   showHeaderAndFooter: boolean;
   donationAttempted: boolean;
   showForm: boolean;
@@ -50,18 +55,35 @@ function ModalHeader({
     return (
       <Row className='text-center'>
         <Col sm={10} smOffset={1} xs={12}>
-          {recentlyClaimedBlock !== null && (
-            <>
-              <b>
-                {t('donate.nicely-done', {
-                  block: t(
-                    `intro:${recentlyClaimedBlock.superBlock}.blocks.${recentlyClaimedBlock.block}.title`
-                  )
-                })}
-              </b>
-              <Spacer size='xs' />
-            </>
-          )}
+          {recentlyClaimedBlock &&
+            recentlyClaimedBlock.superBlock !==
+              SuperBlocks.FullStackDeveloper && (
+              <>
+                <b>
+                  {t('donate.nicely-done', {
+                    block: t(
+                      `intro:${recentlyClaimedBlock.superBlock}.blocks.${recentlyClaimedBlock.block}.title`
+                    )
+                  })}
+                </b>
+                <Spacer size='xs' />
+              </>
+            )}
+
+          {recentlyClaimedModule &&
+            recentlyClaimedModule.superBlock ===
+              SuperBlocks.FullStackDeveloper && (
+              <>
+                <b>
+                  {t('donate.nicely-done', {
+                    block: t(
+                      `intro:${recentlyClaimedModule.superBlock}.modules.${recentlyClaimedModule.module}`
+                    )
+                  })}
+                </b>
+                <Spacer size='xs' />
+              </>
+            )}
 
           <Modal.Header showCloseButton={false} borderless>
             {t('donate.modal-benefits-title')}
@@ -189,6 +211,7 @@ const AnimationContainer = ({
 
 const BecomeASupporterConfirmation = ({
   recentlyClaimedBlock,
+  recentlyClaimedModule,
   showHeaderAndFooter,
   closeDonationModal,
   donationAttempted,
@@ -198,6 +221,7 @@ const BecomeASupporterConfirmation = ({
   setShowForm
 }: {
   recentlyClaimedBlock: RecentlyClaimedBlock;
+  recentlyClaimedModule: RecentlyClaimedModule;
   showHeaderAndFooter: boolean;
   closeDonationModal: () => void;
   donationAttempted: boolean;
@@ -213,6 +237,7 @@ const BecomeASupporterConfirmation = ({
       </div>
       <ModalHeader
         recentlyClaimedBlock={recentlyClaimedBlock}
+        recentlyClaimedModule={recentlyClaimedModule}
         showHeaderAndFooter={showHeaderAndFooter}
         donationAttempted={donationAttempted}
         showForm={showForm}
@@ -241,6 +266,7 @@ const BecomeASupporterConfirmation = ({
 function DonationModalBody({
   closeDonationModal,
   recentlyClaimedBlock,
+  recentlyClaimedModule,
   setCanClose
 }: DonationModalBodyProps): JSX.Element {
   const [donationAttempted, setDonationAttempted] = useState(false);
@@ -274,6 +300,7 @@ function DonationModalBody({
         ) : (
           <BecomeASupporterConfirmation
             recentlyClaimedBlock={recentlyClaimedBlock}
+            recentlyClaimedModule={recentlyClaimedModule}
             showHeaderAndFooter={showHeaderAndFooter}
             closeDonationModal={closeDonationModal}
             donationAttempted={donationAttempted}

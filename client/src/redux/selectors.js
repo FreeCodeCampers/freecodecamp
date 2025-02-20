@@ -1,4 +1,5 @@
 import { Certification } from '../../../shared/config/certification-settings';
+import { SuperBlocks } from '../../../shared/config/curriculum';
 import { randomBetween } from '../utils/random-between';
 import { getSessionChallengeData } from '../utils/session-storage';
 import { ns as MainApp } from './action-types';
@@ -24,6 +25,8 @@ export const isSignoutModalOpenSelector = state =>
   state[MainApp].showSignoutModal;
 export const recentlyClaimedBlockSelector = state =>
   state[MainApp].recentlyClaimedBlock;
+export const recentlyClaimedModuleSelector = state =>
+  state[MainApp].recentlyClaimedModule;
 export const donationFormStateSelector = state =>
   state[MainApp].donationFormState;
 export const updateCardStateSelector = state => state[MainApp].updateCardState;
@@ -36,6 +39,7 @@ export const shouldRequestDonationSelector = state => {
   const completedChallengeCount = completedChallengesSelector(state).length;
   const isDonating = isDonatingSelector(state);
   const recentlyClaimedBlock = recentlyClaimedBlockSelector(state);
+  const recentlyClaimedModule = recentlyClaimedModuleSelector(state);
   const isRandomCompletionThreshold =
     isRandomCompletionThresholdSelector(state);
 
@@ -46,8 +50,18 @@ export const shouldRequestDonationSelector = state => {
   // not before the 11th challenge has mounted)
   if (completedChallengeCount < 10) return false;
 
-  // a block has been completed
-  if (recentlyClaimedBlock) return true;
+  // a block or module has been completed
+  if (
+    recentlyClaimedBlock &&
+    recentlyClaimedBlock.superBlock !== SuperBlocks.FullStackDeveloper
+  )
+    return true;
+
+  if (
+    recentlyClaimedModule &&
+    recentlyClaimedModule.superBlock === SuperBlocks.FullStackDeveloper
+  )
+    return true;
 
   const sessionChallengeData = getSessionChallengeData();
   /*
@@ -256,6 +270,7 @@ export const certificatesByNameSelector = username => state => {
 export const userFetchStateSelector = state => state[MainApp].userFetchState;
 export const allChallengesInfoSelector = state =>
   state[MainApp].allChallengesInfo;
+export const completionStateSelector = state => state[MainApp].completionState;
 export const userProfileFetchStateSelector = state =>
   state[MainApp].userProfileFetchState;
 export const usernameSelector = state => state[MainApp].appUsername;
