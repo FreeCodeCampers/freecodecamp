@@ -47,6 +47,18 @@ export const getPublicProfile = {
                   examResults
                 })
               ),
+              completedModules: Type.Array(
+                Type.Object({
+                  id: Type.String(),
+                  completedDate: Type.Number()
+                })
+              ),
+              completedChapters: Type.Array(
+                Type.Object({
+                  id: Type.String(),
+                  completedDate: Type.Number()
+                })
+              ),
               // TODO(Post-MVP): return completedSurveys? Presumably not, since why
               // would this need to be public.
               githubProfile: Type.Optional(Type.String()),

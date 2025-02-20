@@ -34,6 +34,16 @@ type PartiallyCompletedChallenge {
   completedDate Float
 }
 
+type CompletedModule {
+  id            String
+  completedDate Float
+}
+
+type CompletedChapter {
+  id            String
+  completedDate Float
+}
+
 type Portfolio {
   description String
   id          String
@@ -82,6 +92,8 @@ model user {
   acceptedPrivacyTerms         Boolean
   completedChallenges          CompletedChallenge[]
   completedExams               CompletedExam[] // Undefined
+  completedModules             CompletedModule[] // Undefined
+  completedChapters            CompletedChapter[] // Undefined
   quizAttempts                 QuizAttempt[] // Undefined
   currentChallengeId           String?
   donationEmails               String[] // Undefined | String[] (only possible for built in Types like String)

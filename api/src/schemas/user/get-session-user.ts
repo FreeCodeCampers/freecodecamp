@@ -41,6 +41,18 @@ export const getSessionUser = {
               examResults
             })
           ),
+          completedModules: Type.Array(
+            Type.Object({
+              id: Type.String(),
+              completedDate: Type.Number()
+            })
+          ),
+          completedChapters: Type.Array(
+            Type.Object({
+              id: Type.String(),
+              completedDate: Type.Number()
+            })
+          ),
           quizAttempts: Type.Array(
             Type.Object({
               challengeId: Type.String({

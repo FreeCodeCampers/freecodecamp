@@ -66,6 +66,8 @@ const testUserData: Prisma.userCreateInput = {
   ],
   partiallyCompletedChallenges: [{ id: '123', completedDate: 123 }],
   completedExams: [],
+  completedModules: [{ id: 'basic-html', completedDate: 1733875200000 }],
+  completedChapters: [{ id: 'html', completedDate: 1733961600000 }],
   githubProfile: 'github.com/foobar',
   website: 'https://www.freecodecamp.org',
   donationEmails: ['an@add.ress'],
@@ -172,6 +174,8 @@ const publicUserData = {
     }
   ],
   completedExams: testUserData.completedExams,
+  completedModules: testUserData.completedModules,
+  completedChapters: testUserData.completedChapters,
   completedSurveys: [], // TODO: add surveys
   githubProfile: testUserData.githubProfile,
   is2018DataVisCert: testUserData.is2018DataVisCert,
@@ -212,6 +216,13 @@ const publicUserData = {
   yearsTopContributor: testUserData.yearsTopContributor
 };
 
+// These are not part of the schema, but are added to the user object by
+// get-public-profile's handler
+const computedProperties = {
+  calendar: {},
+  points: 1
+};
+
 describe('userRoutes', () => {
   setupServer();
 
@@ -226,6 +237,7 @@ describe('userRoutes', () => {
       const profilelessUsername = 'profileless-user';
       const lockedUsername = 'locked-user';
       const publicUsername = 'public-user';
+
       const lockedUserProfileUI = {
         isLocked: true,
         showAbout: true,
@@ -382,6 +394,80 @@ describe('userRoutes', () => {
             result: publicUsername
           });
           expect(response.statusCode).toBe(200);
+        });
+
+        test('GET returns a minimal user when all optional properties are missing', async () => {
+          // To get a minimal test user we first delete the existing one...
+          await fastifyTestInstance.prisma.user.deleteMany({
+            where: {
+              email: minimalUserData.email
+            }
+          });
+          // ...then recreate it using only the properties that the schema
+          // requires. The alternative is to update, but that would require
+          // a lot of unsets (this is neater)
+          const testUser = await fastifyTestInstance.prisma.user.create({
+            data: {
+              ...minimalUserData,
+              profileUI: unlockedUserProfileUI
+            }
+          });
+
+          const response = await superGet(
+            `/api/users/get-public-profile?username=${minimalUserData.username}`
+          );
+
+          const publicUser = {
+            ...computedProperties,
+            profileUI: unlockedUserProfileUI,
+            about: 'I am a test user',
+            isDonating: false,
+            picture: 'https://www.freecodecamp.org/cat.png',
+            username: 'testuser',
+            joinDate: new ObjectId(testUser.id).getTimestamp().toISOString(),
+            // the following properties are defaults provided if the field is
+            // missing in the user document.
+            completedChallenges: [],
+            completedExams: [],
+            completedModules: [],
+            completedChapters: [],
+            partiallyCompletedChallenges: [],
+            portfolio: [],
+            savedChallenges: [],
+            yearsTopContributor: [],
+            is2018DataVisCert: false,
+            is2018FullStackCert: false,
+            isApisMicroservicesCert: false,
+            isBackEndCert: false,
+            isCheater: false,
+            isCollegeAlgebraPyCertV8: false,
+            isDataAnalysisPyCertV7: false,
+            isDataVisCert: false,
+            isFoundationalCSharpCertV8: false,
+            isFrontEndCert: false,
+            isFrontEndLibsCert: false,
+            isFullStackCert: false,
+            isHonest: false,
+            isInfosecCertV7: false,
+            isInfosecQaCert: false,
+            isJsAlgoDataStructCert: false,
+            isJsAlgoDataStructCertV8: false,
+            isMachineLearningPyCertV7: false,
+            isQaCertV7: false,
+            isRelationalDatabaseCertV8: false,
+            isRespWebDesignCert: false,
+            isSciCompPyCertV7: false,
+            location: '',
+            name: ''
+          };
+
+          const {
+            entities: {
+              user: { testuser }
+            }
+          } = response.body;
+
+          expect(testuser).toStrictEqual(publicUser);
         });
       });
     });
