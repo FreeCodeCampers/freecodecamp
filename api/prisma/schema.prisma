@@ -42,6 +42,15 @@ type Portfolio {
   url         String
 }
 
+type Career {
+  title       String
+  company     String
+  location    String
+  start_date  String
+  end_date    String
+  description String
+}
+
 type ProfileUI {
   isLocked      Boolean? // Undefined
   showAbout     Boolean? // Undefined
@@ -53,6 +62,7 @@ type ProfileUI {
   showPoints    Boolean? // Undefined
   showPortfolio Boolean? // Undefined
   showTimeLine  Boolean? // Undefined
+  showCareer    Boolean? // Undefined
 }
 
 type SavedChallengeFile {
@@ -126,6 +136,7 @@ model user {
   password                     String? // Undefined
   picture                      String
   portfolio                    Portfolio[]
+  career                       Career[]
   profileUI                    ProfileUI? // Undefined
   progressTimestamps           Json? // ProgressTimestamp[] | Null[] | Int64[] | Double[] - TODO: NORMALIZE
   /// A random number between 0 and 1.

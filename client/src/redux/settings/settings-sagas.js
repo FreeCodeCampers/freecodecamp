@@ -20,6 +20,7 @@ import {
   putUpdateMyAbout,
   putUpdateMyHonesty,
   putUpdateMyKeyboardShortcuts,
+  putUpdateMyCareer,
   putUpdateMyPortfolio,
   putUpdateMyProfileUI,
   putUpdateMyQuincyEmail,
@@ -41,6 +42,8 @@ import {
   updateMyHonestyError,
   updateMyKeyboardShortcutsComplete,
   updateMyKeyboardShortcutsError,
+  updateMyCareerComplete,
+  updateMyCareerError,
   updateMyPortfolioComplete,
   updateMyPortfolioError,
   updateMyQuincyEmailComplete,
@@ -169,6 +172,16 @@ function* updateMyPortfolioSaga({ payload: update }) {
   }
 }
 
+function* updateMyCareerSaga({ payload: update }) {
+  try {
+    const { data } = yield call(putUpdateMyCareer, update);
+    yield put(updateMyCareerComplete({ ...data, payload: update }));
+    yield put(createFlashMessage({ ...data }));
+  } catch (e) {
+    yield put(updateMyCareerError);
+  }
+}
+
 function* validateUsernameSaga({ payload }) {
   try {
     const {
@@ -237,6 +250,7 @@ export function createSettingsSagas(types) {
     takeEvery(types.resetMyEditorLayout, resetMyEditorLayoutSaga),
     takeEvery(types.updateMyKeyboardShortcuts, updateMyKeyboardShortcutsSaga),
     takeEvery(types.updateMyQuincyEmail, updateMyQuincyEmailSaga),
+    takeEvery(types.updateMyCareer, updateMyCareerSaga),
     takeEvery(types.updateMyPortfolio, updateMyPortfolioSaga),
     takeLatest(types.submitNewAbout, submitNewAboutSaga),
     takeLatest(types.submitNewUsername, submitNewUsernameSaga),

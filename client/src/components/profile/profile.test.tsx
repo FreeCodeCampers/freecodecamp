@@ -29,6 +29,7 @@ const userProps = {
     },
     calendar: {},
     completedChallenges: [],
+    career: [],
     portfolio: [],
     progressTimestamps: [],
     about: 'string',

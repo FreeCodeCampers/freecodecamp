@@ -86,6 +86,16 @@ export const getPublicProfile = {
               picture: Type.String(),
               // TODO(Post-MVP): points should be a number
               points: Type.Union([Type.Number(), Type.Null()]),
+              career: Type.Array(
+                Type.Object({
+                  title: Type.String(),
+                  company: Type.String(),
+                  location: Type.String(),
+                  start_date: Type.String(),
+                  end_date: Type.String(),
+                  description: Type.String()
+                })
+              ),
               portfolio: Type.Array(
                 Type.Object({
                   description: Type.String(),

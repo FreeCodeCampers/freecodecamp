@@ -71,6 +71,7 @@ export function createUserInput(email: string): Prisma.userCreateInput {
     unsubscribeId: nanoid(),
     picture: '',
     portfolio: [], // TODO(Post-MVP): Omit this from the document? (prisma will always return [])
+    career: [], // TODO: Omit this from the document? (prisma will always return [])
     profileUI: {
       isLocked: false,
       showAbout: false,
@@ -81,7 +82,8 @@ export function createUserInput(email: string): Prisma.userCreateInput {
       showName: false,
       showPoints: false,
       showPortfolio: false,
-      showTimeLine: false
+      showTimeLine: false,
+      showCareer: false
     },
     sendQuincyEmail: false,
     theme: 'default',

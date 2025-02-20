@@ -5,12 +5,21 @@ const { clientLocale } = envData;
 
 const localeCode = getLangCode(clientLocale);
 
-const parseDate = (joinDate: string, t: TFunction): string => {
+const parseDate = (
+  joinDate: string,
+  t: TFunction,
+  month: Intl.DateTimeFormatOptions['month'] = 'long'
+): string => {
   const convertedJoinDate = new Date(joinDate);
   const date = convertedJoinDate.toLocaleString([localeCode, 'en-US'], {
     year: 'numeric',
-    month: 'long'
+    month: month
   });
+
+  if (month === 'short') {
+    return date;
+  }
+
   return t('profile.joined', { date: date });
 };
 

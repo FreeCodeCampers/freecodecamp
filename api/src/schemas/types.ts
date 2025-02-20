@@ -66,5 +66,6 @@ export const profileUI = Type.Object({
   showName: Type.Optional(Type.Boolean()),
   showPoints: Type.Optional(Type.Boolean()),
   showPortfolio: Type.Optional(Type.Boolean()),
-  showTimeLine: Type.Optional(Type.Boolean())
+  showTimeLine: Type.Optional(Type.Boolean()),
+  showCareer: Type.Optional(Type.Boolean())
 });

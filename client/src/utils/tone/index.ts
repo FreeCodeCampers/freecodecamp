@@ -69,6 +69,7 @@ const toneUrls = {
   [FlashMessages.TokenDeleted]: CHAL_COMP,
   [FlashMessages.UpdatedAboutMe]: CHAL_COMP,
   [FlashMessages.UpdatedKeyboardShortCuts]: CHAL_COMP,
+  [FlashMessages.UpdatedCareer]: CHAL_COMP,
   [FlashMessages.UpdatedPortfolio]: CHAL_COMP,
   [FlashMessages.UpdatedPrivacy]: CHAL_COMP,
   [FlashMessages.UpdatedQunicyEmailSubscription]: CHAL_COMP,

@@ -49,6 +49,7 @@ type ShowSettingsProps = {
   resetEditorLayout: () => void;
   toggleKeyboardShortcuts: (keyboardShortcuts: boolean) => void;
   updateIsHonest: () => void;
+  updateCareer: () => void;
   updateQuincyEmail: (isSendQuincyEmail: boolean) => void;
   user: User;
   verifyCert: typeof verifyCert;
@@ -157,6 +158,7 @@ export function ShowSettings(props: ShowSettingsProps): JSX.Element {
           >
             {t('settings.for', { username: username })}
           </h1>
+
           <MiscSettings
             keyboardShortcuts={keyboardShortcuts}
             sound={sound}

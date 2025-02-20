@@ -386,6 +386,12 @@ export function putUpdateMyPortfolio(
   return put('/update-my-portfolio', update);
 }
 
+export function putUpdateMyCareer(
+  update: Record<string, string>
+): Promise<ResponseWithData<void>> {
+  return put('/update-my-career', update);
+}
+
 export function putUserAcceptsTerms(
   quincyEmails: boolean
 ): Promise<ResponseWithData<void>> {

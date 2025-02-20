@@ -11,7 +11,8 @@ import { fetchProfileForUser } from '../redux/actions';
 import {
   submitNewAbout,
   updateMyPortfolio,
-  updateMySocials
+  updateMySocials,
+  updateMyCareer
 } from '../redux/settings/actions';
 import {
   usernameSelector,
@@ -24,6 +25,7 @@ import { Socials } from '../components/profile/components/internet';
 interface ShowProfileOrFourOhFourProps {
   fetchProfileForUser: (username: string) => void;
   updateMyPortfolio: () => void;
+  updateMyCareer: () => void;
   submitNewAbout: () => void;
   updateMySocials: (formValues: Socials) => void;
   fetchState: {
@@ -66,11 +68,13 @@ const mapDispatchToProps: {
   submitNewAbout: () => void;
   updateMyPortfolio: () => void;
   updateMySocials: (formValues: Socials) => void;
+  updateMyCareer: () => void;
 } = {
   fetchProfileForUser,
   submitNewAbout,
   updateMyPortfolio,
-  updateMySocials
+  updateMySocials,
+  updateMyCareer
 };
 
 function ShowProfileOrFourOhFour({
@@ -80,6 +84,7 @@ function ShowProfileOrFourOhFour({
   submitNewAbout,
   updateMyPortfolio,
   updateMySocials,
+  updateMyCareer,
   isSessionUser,
   showLoading
 }: ShowProfileOrFourOhFourProps) {
@@ -110,6 +115,7 @@ function ShowProfileOrFourOhFour({
       submitNewAbout={submitNewAbout}
       updateMyPortfolio={updateMyPortfolio}
       updateMySocials={updateMySocials}
+      updateMyCareer={updateMyCareer}
     />
   );
 }

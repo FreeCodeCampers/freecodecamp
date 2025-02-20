@@ -60,6 +60,7 @@ export enum FlashMessages {
   UpdatedKeyboardShortCuts = 'flash.keyboard-shortcut-updated',
   UpdatedQunicyEmailSubscription = 'flash.subscribe-to-quincy-updated',
   UpdatedPortfolio = 'flash.portfolio-item-updated',
+  UpdatedCareer = 'flash.updated-career',
   UpdatedPrivacy = 'flash.privacy-updated',
   UsernameNotFound = 'flash.username-not-found',
   UsernameTaken = 'flash.username-taken',

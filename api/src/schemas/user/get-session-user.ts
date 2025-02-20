@@ -10,6 +10,16 @@ export const getSessionUser = {
           about: Type.String(),
           acceptedPrivacyTerms: Type.Boolean(),
           calendar: Type.Record(Type.Number(), Type.Literal(1)),
+          career: Type.Array(
+            Type.Object({
+              title: Type.String(),
+              company: Type.String(),
+              location: Type.String(),
+              start_date: Type.String(),
+              end_date: Type.String(),
+              description: Type.String()
+            })
+          ),
           completedChallenges: Type.Array(
             Type.Object({
               id: Type.String(),

@@ -1,4 +1,4 @@
-import type { FastifyPluginCallbackTypebox } from '@fastify/type-provider-typebox';
+import { type FastifyPluginCallbackTypebox } from '@fastify/type-provider-typebox';
 import { ObjectId } from 'mongodb';
 import _ from 'lodash';
 import { FastifyInstance, FastifyReply } from 'fastify';
@@ -443,6 +443,7 @@ export const userGetRoutes: FastifyPluginCallbackTypebox = (
           select: {
             about: true,
             acceptedPrivacyTerms: true,
+            career: true,
             completedChallenges: true,
             completedExams: true,
             currentChallengeId: true,

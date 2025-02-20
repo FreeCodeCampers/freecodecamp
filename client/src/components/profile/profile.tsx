@@ -17,12 +17,14 @@ import Stats from './components/stats';
 import HeatMap from './components/heat-map';
 import './profile.css';
 import { PortfolioProjects } from './components/portfolio-projects';
+import CareerTimeline from './components/career-timeline';
 
 interface ProfileProps {
   isSessionUser: boolean;
   user: User;
   updateMyPortfolio: () => void;
   updateMySocials: (formValues: Socials) => void;
+  updateMyCareer: () => void;
   submitNewAbout: () => void;
 }
 
@@ -134,6 +136,7 @@ function UserProfile({
   isSessionUser,
   updateMyPortfolio,
   updateMySocials,
+  updateMyCareer,
   submitNewAbout
 }: ProfileProps): JSX.Element {
   const [isEditing, setIsEditing] = useState(false);
@@ -148,7 +151,8 @@ function UserProfile({
       showName,
       showPoints,
       showPortfolio,
-      showTimeLine
+      showTimeLine,
+      showCareer
     },
     calendar,
     completedChallenges,
@@ -165,7 +169,8 @@ function UserProfile({
     portfolio,
     about,
     yearsTopContributor,
-    isDonating
+    isDonating,
+    career
   } = user;
 
   return (
@@ -199,6 +204,13 @@ function UserProfile({
       />
       {showPoints ? <Stats points={points} calendar={calendar} /> : null}
       {showHeatMap ? <HeatMap calendar={calendar} /> : null}
+      {showCareer ? (
+        <CareerTimeline
+          career={career}
+          isSessionUser={isSessionUser}
+          updateMyCareer={updateMyCareer}
+        />
+      ) : null}
       {showPortfolio ? (
         <PortfolioProjects portfolioProjects={portfolio} />
       ) : null}
@@ -216,6 +228,7 @@ function Profile({
   isSessionUser,
   updateMyPortfolio,
   updateMySocials,
+  updateMyCareer,
   submitNewAbout
 }: ProfileProps): JSX.Element {
   const { t } = useTranslation();
@@ -242,6 +255,7 @@ function Profile({
             user={user}
             isSessionUser={isSessionUser}
             updateMyPortfolio={updateMyPortfolio}
+            updateMyCareer={updateMyCareer}
             updateMySocials={updateMySocials}
             submitNewAbout={submitNewAbout}
           />

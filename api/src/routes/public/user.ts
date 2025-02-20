@@ -1,4 +1,4 @@
-import { Portfolio } from '@prisma/client';
+import { Career, Portfolio } from '@prisma/client';
 import { type FastifyPluginCallbackTypebox } from '@fastify/type-provider-typebox';
 import { ObjectId } from 'mongodb';
 import _ from 'lodash';
@@ -33,6 +33,7 @@ type ProfileUI = Partial<{
   showPoints: boolean;
   showPortfolio: boolean;
   showTimeLine: boolean;
+  showCareer: boolean;
 }>;
 
 type RawUser = {
@@ -47,6 +48,7 @@ type RawUser = {
   points: number;
   portfolio: Portfolio[];
   profileUI: ProfileUI;
+  career: Career[];
 };
 
 /**
@@ -64,7 +66,8 @@ export const replacePrivateData = (user: RawUser) => {
     showName,
     showPoints,
     showPortfolio,
-    showTimeLine
+    showTimeLine,
+    showCareer
   } = user.profileUI;
 
   return {
@@ -82,7 +85,8 @@ export const replacePrivateData = (user: RawUser) => {
     location: showLocation ? user.location : '',
     name: showName ? user.name : '',
     points: showPoints ? user.points : null,
-    portfolio: showPortfolio ? user.portfolio : []
+    portfolio: showPortfolio ? user.portfolio : [],
+    career: showCareer ? user.career : []
   };
 };
 

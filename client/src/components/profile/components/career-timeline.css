@@ -1,0 +1,29 @@
+.date {
+  color: #999;
+  font-size: 0.9em;
+  margin-bottom: 0.5em;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2em;
+}
+
+.edit-btn {
+  height: fit-content;
+  width: 30px;
+  padding: 0;
+  margin-left: 1em;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 1em;
+}
+
+.job-info p {
+  line-height: 0.8;
+}

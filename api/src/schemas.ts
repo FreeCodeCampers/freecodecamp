@@ -26,6 +26,7 @@ export { updateMyEmail } from './schemas/settings/update-my-email';
 export { updateMyHonesty } from './schemas/settings/update-my-honesty';
 export { updateMyKeyboardShortcuts } from './schemas/settings/update-my-keyboard-shortcuts';
 export { updateMyPortfolio } from './schemas/settings/update-my-portfolio';
+export { updateMyCareer } from './schemas/settings/update-my-career';
 export { updateMyPrivacyTerms } from './schemas/settings/update-my-privacy-terms';
 export { updateMyProfileUI } from './schemas/settings/update-my-profile-ui';
 export { updateMyQuincyEmail } from './schemas/settings/update-my-quincy-email';

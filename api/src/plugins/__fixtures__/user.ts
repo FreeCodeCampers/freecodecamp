@@ -10,6 +10,7 @@ const mongodbIdRe = /^[a-f0-9]{24}$/;
 export const newUser = (email: string) => ({
   about: '',
   acceptedPrivacyTerms: false,
+  career: [],
   completedChallenges: [],
   completedExams: [],
   quizAttempts: [],
@@ -71,7 +72,8 @@ export const newUser = (email: string) => ({
     showName: false,
     showPoints: false,
     showPortfolio: false,
-    showTimeLine: false
+    showTimeLine: false,
+    showCareer: false
   },
   progressTimestamps: [expect.any(Number)],
   rand: null, // TODO(Post-MVP): delete from schema (it's not used or required).
@@ -87,6 +89,6 @@ export const newUser = (email: string) => ({
   usernameDisplay: expect.stringMatching(fccUuidRe),
   verificationToken: null,
   website: null,
-  yearsTopContributor: []
+  yearsTopContributor: [],
 }
 )

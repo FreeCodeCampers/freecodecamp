@@ -164,6 +164,7 @@ export const settingRoutes: FastifyPluginCallbackTypebox = (
               showName: req.body.profileUI.showName,
               showPoints: req.body.profileUI.showPoints,
               showPortfolio: req.body.profileUI.showPortfolio,
+              showCareer: req.body.profileUI.showCareer,
               showTimeLine: req.body.profileUI.showTimeLine
             }
           }
@@ -613,6 +614,52 @@ ${isLinkSentWithinLimitTTL}`
 
         return {
           message: 'flash.privacy-updated',
+          type: 'success'
+        } as const;
+      } catch (err) {
+        fastify.log.error(err);
+        fastify.Sentry.captureException(err);
+        void reply.code(500);
+        return { message: 'flash.wrong-updating', type: 'danger' } as const;
+      }
+    }
+  );
+
+  fastify.put(
+    '/update-my-career',
+    {
+      schema: schemas.updateMyCareer,
+      errorHandler: updateErrorHandler
+    },
+    async (req, reply) => {
+      try {
+        const career = req.body.career.map(
+          ({
+            title,
+            company,
+            location,
+            start_date,
+            end_date,
+            description
+          }) => ({
+            company: company ? company : '',
+            location: location ? location : '',
+            title: title ? title : '',
+            start_date: start_date ? start_date : '',
+            end_date: end_date ? end_date : '',
+            description: description ? description : ''
+          })
+        );
+
+        await fastify.prisma.user.update({
+          where: { id: req.user?.id },
+          data: {
+            career
+          }
+        });
+
+        return {
+          message: 'flash.updated-career',
           type: 'success'
         } as const;
       } catch (err) {
