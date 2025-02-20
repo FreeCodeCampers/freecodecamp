@@ -1,7 +1,7 @@
 {
-  "name": "Build a Pokémon Search App Project",
+  "name": "Build an RPG Creature Search App Project",
   "isUpcomingChange": false,
-  "dashedName": "build-a-pokemon-search-app-project",
+  "dashedName": "build-an-rpg-creature-search-app-project",
   "usesMultifileEditor": true,
   "helpCategory": "JavaScript",
   "order": 24,
@@ -9,7 +9,7 @@
   "challengeOrder": [
     {
       "id": "6555c1d3e11a1574434cf8b5",
-      "title": "Build a Pokémon Search App Project"
+      "title": "Build an RPG Creature Search App Project"
     }
   ],
   "blockLayout": "legacy-link"
