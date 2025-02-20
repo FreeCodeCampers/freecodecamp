@@ -9,7 +9,8 @@ import {
   composeValidators,
   fCCValidator,
   httpValidator,
-  sourceCodeLinkExistsValidator
+  sourceCodeLinkExistsValidator,
+  sourceCodeLinkPublicValidator
 } from './form-validators';
 import FormFields, { FormOptions } from './form-fields';
 
@@ -69,8 +70,11 @@ function validateFormValues(
     if (!isLocalLinkAllowed) {
       validators.push(localhostValidator);
     }
-    if (isSourceCodeLinkRequired) {
-      validators.push(sourceCodeLinkExistsValidator);
+    if (key === 'githubLink') {
+      if (isSourceCodeLinkRequired) {
+        validators.push(sourceCodeLinkExistsValidator);
+      }
+      validators.push(sourceCodeLinkPublicValidator);
     }
 
     const nullOrWarning = composeValidators(...validators)(value);

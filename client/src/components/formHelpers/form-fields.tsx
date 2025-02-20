@@ -15,7 +15,8 @@ import {
   fCCValidator,
   httpValidator,
   pathValidator,
-  sourceCodeLinkExistsValidator
+  sourceCodeLinkExistsValidator,
+  sourceCodeLinkPublicValidator
 } from './form-validators';
 
 export type FormOptions = {
@@ -67,8 +68,11 @@ function FormFields({ formFields, options }: FormFieldsProps): JSX.Element {
         validators.push(pathValidator);
       }
     }
-    if (isSourceCodeLinkRequired && name === 'githubLink') {
-      validators.push(sourceCodeLinkExistsValidator);
+    if (name === 'githubLink') {
+      if (isSourceCodeLinkRequired) {
+        validators.push(sourceCodeLinkExistsValidator);
+      }
+      validators.push(sourceCodeLinkPublicValidator);
     }
     if (!isLocalLinkAllowed) {
       validators.push(localhostValidator);

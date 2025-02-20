@@ -969,7 +969,8 @@
     "publicly-visible-url": "Remember to submit a publicly visible app URL.",
     "ms-learn-link": "Please use a valid Microsoft Learn trophy link.",
     "path-url": "You probably want to submit the root path i.e. https://example.com, not https://example.com/path",
-    "source-code-link-required": "Remember to submit the link to your source code."
+    "source-code-link-required": "Remember to submit the link to your source code.",
+    "source-code-link-public": "Source code link must be publicly visible."
   },
   "certification": {
     "executive": "Executive Director, freeCodeCamp.org",

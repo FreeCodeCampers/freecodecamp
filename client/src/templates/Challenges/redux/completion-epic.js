@@ -56,7 +56,7 @@ function postChallenge(update) {
   const saveChallenge = postUpdate$(update).pipe(
     retry(3),
     switchMap(({ data }) => {
-      const { savedChallenges, message, examResults } = data;
+      const { type, savedChallenges, message, examResults } = data;
       const payloadWithClientProperties = {
         ...omit(update.payload, ['files'])
       };
@@ -79,8 +79,15 @@ function postChallenge(update) {
         submitChallengeComplete()
       ];
 
-      if (message && challengeType === challengeTypes.msTrophy) {
-        actions = [createFlashMessage(data), submitChallengeError()];
+      if (
+        type === 'error' ||
+        (message && challengeType === challengeTypes.msTrophy)
+      ) {
+        actions = [];
+        if (message) {
+          actions.push(createFlashMessage(data));
+        }
+        actions.push(submitChallengeError());
       } else if (challengeType === challengeTypes.msTrophy) {
         actions.push(createFlashMessage(msTrophyVerified));
       }

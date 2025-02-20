@@ -41,6 +41,8 @@ export const pathValidator: Validator = value =>
 export const sourceCodeLinkExistsValidator: Validator = value =>
   value ? null : <Trans>validation.source-code-link-required</Trans>;
 
+export const sourceCodeLinkPublicValidator: Validator = value =>
+  isPrivate(value) ? <Trans>validation.source-code-link-public</Trans> : null;
 export function composeValidators(...validators: Validator[]) {
   return (value: string): ReturnType<Validator> | null =>
     validators.reduce(
