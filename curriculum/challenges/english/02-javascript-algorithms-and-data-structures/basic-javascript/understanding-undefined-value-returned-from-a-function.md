@@ -2,7 +2,6 @@
 id: 598e8944f009e646fc236146
 title: Understanding Undefined Value returned from a Function
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/ce2p7cL'
 forumTopicId: 301177
 dashedName: understanding-undefined-value-returned-from-a-function
 ---

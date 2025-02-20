@@ -2,7 +2,6 @@
 id: 56533eb9ac21ba0edf2244af
 title: Compound Assignment With Augmented Addition
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cDR6LCb'
 forumTopicId: 16661
 dashedName: compound-assignment-with-augmented-addition
 ---

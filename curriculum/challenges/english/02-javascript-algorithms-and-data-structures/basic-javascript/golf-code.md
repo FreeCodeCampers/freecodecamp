@@ -2,7 +2,6 @@
 id: 5664820f61c48e80c9fa476c
 title: Golf Code
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/c9ykNUR'
 forumTopicId: 18195
 dashedName: golf-code
 ---

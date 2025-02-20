@@ -2,7 +2,6 @@
 id: 56bbb991ad1ed5201cd392cb
 title: Manipulate Arrays With push Method
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cnqmVtJ'
 forumTopicId: 18237
 dashedName: manipulate-arrays-with-push
 ---

@@ -2,7 +2,6 @@
 id: bd7123c9c441eddfaeb4bdef
 title: Comment Your JavaScript Code
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/c7ynnTp'
 forumTopicId: 16783
 dashedName: comment-your-javascript-code
 ---

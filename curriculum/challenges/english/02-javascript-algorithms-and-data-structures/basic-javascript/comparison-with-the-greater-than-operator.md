@@ -2,7 +2,6 @@
 id: 56533eb9ac21ba0edf2244d4
 title: Comparison with the Greater Than Operator
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cp6GbH4'
 forumTopicId: 16786
 dashedName: comparison-with-the-greater-than-operator
 ---

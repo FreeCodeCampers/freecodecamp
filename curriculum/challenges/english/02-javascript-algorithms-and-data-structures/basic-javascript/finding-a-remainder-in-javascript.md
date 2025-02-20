@@ -2,7 +2,6 @@
 id: 56533eb9ac21ba0edf2244ae
 title: Finding a Remainder in JavaScript
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cWP24Ub'
 forumTopicId: 18184
 dashedName: finding-a-remainder-in-javascript
 ---

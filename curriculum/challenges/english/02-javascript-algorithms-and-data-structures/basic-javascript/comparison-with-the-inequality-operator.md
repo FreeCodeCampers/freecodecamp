@@ -2,7 +2,6 @@
 id: 56533eb9ac21ba0edf2244d2
 title: Comparison with the Inequality Operator
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cdBm9Sr'
 forumTopicId: 16787
 dashedName: comparison-with-the-inequality-operator
 ---

@@ -2,7 +2,6 @@
 id: 56533eb9ac21ba0edf2244b8
 title: Concatenating Strings with the Plus Equals Operator
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cbQmmC4'
 forumTopicId: 16803
 dashedName: concatenating-strings-with-the-plus-equals-operator
 ---

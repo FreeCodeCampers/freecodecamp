@@ -2,7 +2,6 @@
 id: 56533eb9ac21ba0edf2244ad
 title: Decrement a Number with JavaScript
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cM2KeS2'
 forumTopicId: 17558
 dashedName: decrement-a-number-with-javascript
 ---

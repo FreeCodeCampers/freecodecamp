@@ -2,7 +2,6 @@
 id: 56533eb9ac21ba0edf2244bf
 title: Local Scope and Functions
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cd62NhM'
 forumTopicId: 18227
 dashedName: local-scope-and-functions
 ---

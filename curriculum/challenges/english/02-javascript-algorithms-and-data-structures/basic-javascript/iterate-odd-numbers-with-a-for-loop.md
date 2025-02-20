@@ -2,7 +2,6 @@
 id: 56104e9e514f539506016a5c
 title: Iterate Odd Numbers With a For Loop
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cm8n7T9'
 forumTopicId: 18212
 dashedName: iterate-odd-numbers-with-a-for-loop
 ---

@@ -2,7 +2,6 @@
 id: 56533eb9ac21ba0edf2244e1
 title: Nesting For Loops
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/cRn6GHM'
 forumTopicId: 18248
 dashedName: nesting-for-loops
 ---

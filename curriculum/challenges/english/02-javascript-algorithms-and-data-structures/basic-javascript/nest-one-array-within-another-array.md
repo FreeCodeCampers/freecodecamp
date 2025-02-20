@@ -2,7 +2,6 @@
 id: cf1111c1c11feddfaeb7bdef
 title: Nest one Array within Another Array
 challengeType: 1
-videoUrl: 'https://scrimba.com/c/crZQZf8'
 forumTopicId: 18247
 dashedName: nest-one-array-within-another-array
 ---
