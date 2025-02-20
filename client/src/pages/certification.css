@@ -288,15 +288,6 @@
 }
 
 @media screen and (max-width: 675px) {
-  .certification-namespace header {
-    height: 100px;
-  }
-
-  .certification-namespace h3,
-  .certification-namespace h4 {
-    font-size: 20px;
-  }
-
   .certification-namespace h1 {
     font-size: 25px;
   }
