@@ -22,29 +22,21 @@ First hint
 // test code
 ```
 
+
 Second hint with <code>code</code>
 
 ```js
 // more test code
 ```
 
-Third *hint* with <code>code</code> and `inline code`
-
-```js
-// more test code
-if(let x of xs) {
-  console.log(x);
-}
-```
-
 # --seed-verification--
-
-First hint
 
 ```js
 // test code
 ```
 
+First hint
+
 Second hint with <code>code</code>
 
 ```js
@@ -53,16 +45,8 @@ Second hint with <code>code</code>
 
 Third *hint* with <code>code</code> and `inline code`
 
-```js
-// more test code
-if(let x of xs) {
-  console.log(x);
-}
-```
 
 # --seed--
-
-## --seed-contents--
 
 ```html
 <html>

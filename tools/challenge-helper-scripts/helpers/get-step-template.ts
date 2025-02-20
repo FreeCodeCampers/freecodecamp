@@ -92,6 +92,11 @@ ${stepDescription}
 Test 1
 
 ${getCodeBlock('js')}
+# --seed-verification--
+
+Verifier 1
+
+${getCodeBlock('js')}
 # --seed--` +
     seedChallengeSection +
     seedHeadSection +

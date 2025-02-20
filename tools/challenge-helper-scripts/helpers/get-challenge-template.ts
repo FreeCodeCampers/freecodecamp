@@ -57,6 +57,14 @@ Test 1
 
 \`\`\`
 
+# --seed-verification--
+
+Verifier 1
+
+\`\`\`js
+
+\`\`\`
+
 # --seed--
 
 \`\`\`js

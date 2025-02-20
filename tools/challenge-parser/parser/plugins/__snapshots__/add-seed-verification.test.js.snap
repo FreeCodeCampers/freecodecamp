@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`add-seed-verification plugin should have an output to match the snapshot 1`] = `
+{
+  "tests": [
+    {
+      "testString": "// test code",
+      "text": "<p>First hint</p>",
+    },
+    {
+      "testString": "// more test code",
+      "text": "<p>Second hint with <code>code</code></p>",
+    },
+    {
+      "testString": "// more test code
+if(let x of xs) {
+  console.log(x);
+}",
+      "text": "<p>Third <em>hint</em> with <code>code</code> and <code>inline code</code></p>",
+    },
+  ],
+}
+`;
+
+exports[`add-tests plugin should have an output to match the snapshot 1`] = `
+{
+  "tests": [
+    {
+      "testString": "// test code",
+      "text": "<p>First hint</p>",
+    },
+    {
+      "testString": "// more test code",
+      "text": "<p>Second hint with <code>code</code></p>",
+    },
+    {
+      "testString": "// more test code
+if(let x of xs) {
+  console.log(x);
+}",
+      "text": "<p>Third <em>hint</em> with <code>code</code> and <code>inline code</code></p>",
+    },
+  ],
+}
+`;
