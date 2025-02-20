@@ -30,6 +30,6 @@ print(even_numbers)
 # Output: [2, 4, 6]
 ```
 
-Concise right?
+Concise, right?
 
 In this project, you'll explore the power of lambda functions by creating an expense tracker that allows you to add, list, total, and filter expenses by category. You'll see how the application leverages lambda functions to streamline certain operations, making the code more concise and easier to read.
