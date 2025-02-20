@@ -112,7 +112,7 @@
     "eslint-plugin-filenames-simple": "0.9.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-jest-dom": "5.5.0",
-    "eslint-plugin-jsdoc": "48.2.1",
+    "eslint-plugin-jsdoc": "50.6.3",
     "eslint-plugin-jsx-a11y": "6.10.2",
     "eslint-plugin-no-only-tests": "3.1.0",
     "eslint-plugin-react": "7.37.4",
