@@ -1,9 +1,14 @@
 import type { FastifyPluginCallback } from 'fastify';
-import fastifySentry from '@immobiliarelabs/fastify-sentry';
+import * as Sentry from '@sentry/node';
 import fp from 'fastify-plugin';
 
-import { SENTRY_DSN, SENTRY_ENVIRONMENT } from '../utils/env';
 import { getRedirectParams } from '../utils/redirection';
+
+declare module 'fastify' {
+  interface FastifyInstance {
+    Sentry: typeof Sentry;
+  }
+}
 
 /**
  * Plugin to handle errors and send them to Sentry.
@@ -13,37 +18,48 @@ import { getRedirectParams } from '../utils/redirection';
  * @param done Callback to signal that the logic has completed.
  */
 const errorHandling: FastifyPluginCallback = (fastify, _options, done) => {
-  void fastify.register(fastifySentry, {
-    dsn: SENTRY_DSN,
-    environment: SENTRY_ENVIRONMENT,
-    maxValueLength: 8192, // the default is 250, which is too small.
-    // No need to initialize if DSN is not provided (e.g. in development and
-    // test environments)
-    skipInit: !SENTRY_DSN,
-    errorResponse: (error, request, reply) => {
-      const accepts = request.accepts().type(['json', 'html']);
-      const isCSRFError =
-        error.code === 'FST_CSRF_INVALID_TOKEN' ||
-        error.code === 'FST_CSRF_MISSING_SECRET';
+  Sentry.setupFastifyErrorHandler(fastify);
 
-      const { returnTo } = getRedirectParams(request);
+  fastify.decorate('Sentry', Sentry);
 
-      const message =
-        reply.statusCode === 500 || isCSRFError
-          ? 'flash.generic-error'
-          : error.message;
-      if (accepts === 'json') {
-        void reply.send({
-          message,
-          type: 'danger'
-        });
-      } else {
-        void reply.status(302);
-        void reply.redirectWithMessage(returnTo, {
-          type: 'danger',
-          content: message
-        });
-      }
+  fastify.setErrorHandler((error, request, reply) => {
+    const logger = fastify.log.child({ req: request });
+    const accepts = request.accepts().type(['json', 'html']);
+    const { returnTo } = getRedirectParams(request);
+
+    if (!reply.statusCode || reply.statusCode === 200) {
+      const statusCode =
+        error.statusCode && error.statusCode >= 400 ? error.statusCode : 500;
+      reply.code(statusCode);
+    }
+
+    const isCSRFError =
+      error.code === 'FST_CSRF_INVALID_TOKEN' ||
+      error.code === 'FST_CSRF_MISSING_SECRET';
+
+    if (isCSRFError) {
+      // log nothing, since we don't want to fill up the logs with CSRF errors
+    } else if (reply.statusCode >= 500) {
+      logger.error(error);
+    } else {
+      logger.warn(error);
+    }
+
+    const message =
+      reply.statusCode === 500 || isCSRFError
+        ? 'flash.generic-error'
+        : error.message;
+    if (accepts === 'json') {
+      void reply.send({
+        message,
+        type: 'danger'
+      });
+    } else {
+      void reply.status(302);
+      void reply.redirectWithMessage(returnTo, {
+        type: 'danger',
+        content: message
+      });
     }
   });
 

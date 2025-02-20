@@ -4,6 +4,8 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="./reset.d.ts" />
 
+import './instrument';
+
 import { randomBytes } from 'crypto';
 
 import { FastifyRequest } from 'fastify';
