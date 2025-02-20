@@ -19,7 +19,7 @@ It's unlikely you would plot raw data as-is. Before plotting it, you set the sca
 D3 has several scale types. For a linear scale (usually used with quantitative data), there is the D3 method `scaleLinear()`:
 
 ```js
-const scale = d3.scaleLinear()
+const scale = d3.scaleLinear();
 ```
 
 By default, a scale uses the identity relationship. The value of the input is the same as the value of the output. A separate challenge covers how to change this.
@@ -33,19 +33,20 @@ Change the `scale` variable to create a linear scale. Then set the `output` vari
 The text in the `h2` should be `50`.
 
 ```js
-assert($('h2').text() == '50');
+assert.strictEqual(document.querySelector('h2')?.textContent, '50');
 ```
 
 Your code should use the `scaleLinear()` method.
 
 ```js
-assert(code.match(/\.scaleLinear/g));
+assert.match(code, /\.scaleLinear/g);
 ```
 
 The `output` variable should call `scale` with an argument of `50`.
 
 ```js
-assert(output == 50 && code.match(/scale\(\s*?50\s*?\)/g));
+assert.strictEqual(output, 50);
+assert.match(code, /scale\(\s*?50\s*?\)/g);
 ```
 
 # --seed--
@@ -62,10 +63,7 @@ assert(output == 50 && code.match(/scale\(\s*?50\s*?\)/g));
 
     // Add your code above this line
 
-    d3.select("body")
-      .append("h2")
-      .text(output);
-
+    d3.select('body').append('h2').text(output);
   </script>
 </body>
 ```
@@ -75,14 +73,10 @@ assert(output == 50 && code.match(/scale\(\s*?50\s*?\)/g));
 ```html
 <body>
   <script>
-
     const scale = d3.scaleLinear();
-    const output = scale(50); 
+    const output = scale(50);
 
-    d3.select("body")
-      .append("h2")
-      .text(output);
-
+    d3.select('body').append('h2').text(output);
   </script>
 </body>
 ```

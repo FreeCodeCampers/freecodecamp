@@ -13,7 +13,7 @@ D3 lets you add inline CSS styles on dynamic elements with the `style()` method.
 The `style()` method takes a comma-separated key-value pair as an argument. Here's an example to set the selection's text color to blue:
 
 ```js
-selection.style("color","blue");
+selection.style('color', 'blue');
 ```
 
 # --instructions--
@@ -25,13 +25,16 @@ Add the `style()` method to the code in the editor to make all the displayed tex
 Your `h2` elements should have a `font-family` of `verdana`.
 
 ```js
-assert($('h2').css('font-family') == 'verdana');
+const headingTwo = document.querySelector('h2');
+assert.exists(headingTwo); 
+const fontFamily = window.getComputedStyle(headingTwo)['font-family'];
+assert.strictEqual(fontFamily, 'verdana');
 ```
 
 Your code should use the `style()` method.
 
 ```js
-assert(code.match(/\.style/g));
+assert.match(code, /\.style/g);
 ```
 
 # --seed--
@@ -43,16 +46,17 @@ assert(code.match(/\.style/g));
   <script>
     const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
 
-    d3.select("body").selectAll("h2")
+    d3.select('body')
+      .selectAll('h2')
       .data(dataset)
       .enter()
-      .append("h2")
-      .text((d) => (d + " USD"))
-      // Add your code below this line
+      .append('h2')
+      .text(d => d + ' USD');
+    // Add your code below this line
 
 
 
-      // Add your code above this line
+    // Add your code above this line
   </script>
 </body>
 ```
@@ -64,13 +68,13 @@ assert(code.match(/\.style/g));
   <script>
     const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
 
-    d3.select("body").selectAll("h2")
+    d3.select('body')
+      .selectAll('h2')
       .data(dataset)
       .enter()
-      .append("h2")
-      .text((d) => (d + " USD"))
-      .style("font-family", "verdana")
-
+      .append('h2')
+      .text(d => d + ' USD')
+      .style('font-family', 'verdana');
   </script>
 </body>
 ```

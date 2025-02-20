@@ -22,12 +22,13 @@ Here is an example that selects a `ul` element and creates a new list item based
 <body>
   <ul></ul>
   <script>
-    const dataset = ["a", "b", "c"];
-    d3.select("ul").selectAll("li")
+    const dataset = ['a', 'b', 'c'];
+    d3.select('ul')
+      .selectAll('li')
       .data(dataset)
       .enter()
-      .append("li")
-      .text("New item");
+      .append('li')
+      .text('New item');
   </script>
 </body>
 ```
@@ -43,29 +44,28 @@ Select the `body` node, then select all `h2` elements. Have D3 create and append
 Your document should have 9 `h2` elements.
 
 ```js
-assert($('h2').length == 9);
+assert.lengthOf(document.querySelectorAll('h2'), 9);
 ```
 
 The text in the `h2` elements should say `New Title`. The capitalization and spacing should match exactly.
 
 ```js
-assert(
-  $('h2')
-    .text()
-    .match(/New Title/g).length == 9
-);
+const h2Elements = document.querySelectorAll('h2');
+for (let i = 0; i < h2Elements.length; i++) {
+  assert.match(h2Elements[i]?.textContent, /New Title/g);
+}
 ```
 
 Your code should use the `data()` method.
 
 ```js
-assert(code.match(/\.data/g));
+assert.match(code, /\.data/g);
 ```
 
 Your code should use the `enter()` method.
 
 ```js
-assert(code.match(/\.enter/g));
+assert.match(code, /\.enter/g);
 ```
 
 # --seed--
@@ -93,13 +93,12 @@ assert(code.match(/\.enter/g));
   <script>
     const dataset = [12, 31, 22, 17, 25, 18, 29, 14, 9];
 
-    d3.select("body")
-      .selectAll("h2")
+    d3.select('body')
+      .selectAll('h2')
       .data(dataset)
       .enter()
-      .append("h2")
-      .text("New Title")
-
+      .append('h2')
+      .text('New Title');
   </script>
 </body>
 ```

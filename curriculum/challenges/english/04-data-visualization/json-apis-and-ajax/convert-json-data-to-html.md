@@ -19,14 +19,14 @@ Then, loop through the JSON, adding HTML to the variable that wraps the key name
 Here's the code that does this:
 
 ```js
-let html = "";
-json.forEach(function(val) {
+let html = '';
+json.forEach(function (val) {
   const keys = Object.keys(val);
   html += "<div class = 'cat'>";
-  keys.forEach(function(key) {
-    html += "<strong>" + key + "</strong>: " + val[key] + "<br>";
+  keys.forEach(function (key) {
+    html += '<strong>' + key + '</strong>: ' + val[key] + '<br>';
   });
-  html += "</div><br>";
+  html += '</div><br>';
 });
 ```
 
@@ -41,11 +41,10 @@ Here is some example JSON:
 ```json
 [
   {
-    "id":0,
-      "imageLink":"https://cdn.freecodecamp.org/curriculum/legacy-json-apis-ajax/funny-cat.jpg",
-      "altText":"A white cat wearing a green helmet shaped melon on its head. ",
-      "codeNames":[ "Juggernaut", "Mrs. Wallace", "Buttercup"
-    ]
+    "id": 0,
+    "imageLink": "https://cdn.freecodecamp.org/curriculum/legacy-json-apis-ajax/funny-cat.jpg",
+    "altText": "A white cat wearing a green helmet shaped melon on its head. ",
+    "codeNames": ["Juggernaut", "Mrs. Wallace", "Buttercup"]
   }
 ]
 ```
@@ -55,19 +54,19 @@ Here is some example JSON:
 Your code should store the data in the `html` variable
 
 ```js
-assert(__helpers.removeWhiteSpace(code).match(/html(\+=|=html\+)/g))
+assert.match(__helpers.removeWhiteSpace(code), /html(\+=|=html\+)/g);
 ```
 
 Your code should use a `forEach` method to loop over the JSON data from the API.
 
 ```js
-assert(code.match(/json\.forEach/g));
+assert.match(code, /json\.forEach/g);
 ```
 
 Your code should wrap the key names in `strong` tags.
 
 ```js
-assert(code.match(/<strong>.+<\/strong>/g));
+assert.match(code, /<strong>.+<\/strong>/g);
 ```
 
 # --seed--
@@ -76,16 +75,15 @@ assert(code.match(/<strong>.+<\/strong>/g));
 
 ```html
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
-    document.getElementById('getMessage').onclick = function(){
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('getMessage').onclick = function () {
       const req = new XMLHttpRequest();
-      req.open("GET",'/json/cats.json',true);
+      req.open('GET', '/json/cats.json', true);
       req.send();
-      req.onload = function(){
+      req.onload = function () {
         const json = JSON.parse(req.responseText);
-        let html = "";
+        let html = '';
         // Add your code below this line
-
 
         // Add your code above this line
         document.getElementsByClassName('message')[0].innerHTML = html;
@@ -97,7 +95,7 @@ assert(code.match(/<strong>.+<\/strong>/g));
 <style>
   body {
     text-align: center;
-    font-family: "Helvetica", sans-serif;
+    font-family: 'Helvetica', sans-serif;
   }
   h1 {
     font-size: 2em;
@@ -116,19 +114,15 @@ assert(code.match(/<strong>.+<\/strong>/g));
     padding: 5px 10px 8px 10px;
   }
   button:hover {
-    background-color: #0F5897;
-    border: 1px solid #0F5897;
+    background-color: #0f5897;
+    border: 1px solid #0f5897;
   }
 </style>
 
 <h1>Cat Photo Finder</h1>
-<p class="message box">
-  The message will go here
-</p>
+<p class="message box">The message will go here</p>
 <p>
-  <button id="getMessage">
-    Get Message
-  </button>
+  <button id="getMessage">Get Message</button>
 </p>
 ```
 
@@ -136,22 +130,22 @@ assert(code.match(/<strong>.+<\/strong>/g));
 
 ```html
 <script>
-  document.addEventListener('DOMContentLoaded', function(){
-    document.getElementById('getMessage').onclick = function(){
+  document.addEventListener('DOMContentLoaded', function () {
+    document.getElementById('getMessage').onclick = function () {
       const req = new XMLHttpRequest();
-      req.open("GET",'/json/cats.json',true);
+      req.open('GET', '/json/cats.json', true);
       req.send();
-      req.onload = function(){
+      req.onload = function () {
         const json = JSON.parse(req.responseText);
-        let html = "";
+        let html = '';
         // Add your code below this line
-        json.forEach(function(val) {
+        json.forEach(function (val) {
           var keys = Object.keys(val);
           html += "<div class = 'cat'>";
-          keys.forEach(function(key) {
-          html += "<strong>" + key + "</strong>: " + val[key] + "<br>";
-        });
-        html += "</div><br>";
+          keys.forEach(function (key) {
+            html += '<strong>' + key + '</strong>: ' + val[key] + '<br>';
+          });
+          html += '</div><br>';
         });
         // Add your code above this line
         document.getElementsByClassName('message')[0].innerHTML = html;
@@ -163,7 +157,7 @@ assert(code.match(/<strong>.+<\/strong>/g));
 <style>
   body {
     text-align: center;
-    font-family: "Helvetica", sans-serif;
+    font-family: 'Helvetica', sans-serif;
   }
   h1 {
     font-size: 2em;
@@ -182,18 +176,14 @@ assert(code.match(/<strong>.+<\/strong>/g));
     padding: 5px 10px 8px 10px;
   }
   button:hover {
-    background-color: #0F5897;
-    border: 1px solid #0F5897;
+    background-color: #0f5897;
+    border: 1px solid #0f5897;
   }
 </style>
 
 <h1>Cat Photo Finder</h1>
-<p class="message">
-  The message will go here
-</p>
+<p class="message">The message will go here</p>
 <p>
-  <button id="getMessage">
-    Get Message
-  </button>
+  <button id="getMessage">Get Message</button>
 </p>
 ```
