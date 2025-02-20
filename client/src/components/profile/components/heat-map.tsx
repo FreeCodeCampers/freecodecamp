@@ -177,69 +177,77 @@ class HeatMapInner extends Component<HeatMapInnerProps, HeatMapInnerState> {
   }
 }
 
+function createPages(startOfTimestamps: Date, endOfCalendar: Date): PageData[] {
+  const pages: PageData[] = [];
+  let currentEnd = endOfCalendar;
+  let startOfCalendar: Date;
+
+  do {
+    startOfCalendar = addDays(addMonths(currentEnd, -6), 1);
+    pages.push({
+      startOfCalendar,
+      endOfCalendar: currentEnd
+    });
+    currentEnd = addDays(startOfCalendar, -1);
+  } while (startOfTimestamps < startOfCalendar);
+
+  pages.reverse();
+  return pages;
+}
+
+function createCalendarData(pages: PageData[]): CalendarData[] {
+  const calendarData: CalendarData[] = [];
+  let dayCounter = pages[0].startOfCalendar;
+  const finalDay = pages[pages.length - 1].endOfCalendar;
+
+  while (dayCounter <= finalDay) {
+    calendarData.push({
+      date: startOfDay(dayCounter),
+      count: 0
+    });
+    dayCounter = addDays(dayCounter, 1);
+  }
+
+  return calendarData;
+}
+
+function updateCalendarDataWithTimestamps(
+  calendarData: CalendarData[],
+  timestamps: number[]
+): CalendarData[] {
+  const updatedData = calendarData.map(day => ({ ...day }));
+
+  timestamps.forEach(stamp => {
+    const dateStamp = startOfDay(new Date(stamp));
+    const index = updatedData.findIndex(day => isEqual(day.date, dateStamp));
+    if (index >= 0) {
+      updatedData[index].count++;
+    }
+  });
+
+  return updatedData;
+}
+
 const HeatMap = (props: HeatMapProps): JSX.Element => {
   const { t } = useTranslation();
   const { calendar } = props;
 
-  /**
-   *  the following logic creates the data for the heatmap
-   *  from the users calendar
-   */
-
-  // create array of timestamps and turn into milliseconds
   const timestamps = Object.keys(calendar).map(
     stamp => Number.parseInt(stamp, 10) * 1000
   );
   const startOfTimestamps = startOfDay(new Date(timestamps[0]));
-  let endOfCalendar = startOfDay(Date.now());
-  let startOfCalendar;
+  const endOfCalendar = startOfDay(Date.now());
 
-  // creates pages for heatmap
-  const pages: PageData[] = [];
+  const pages = createPages(startOfTimestamps, endOfCalendar);
+  const calendarData = createCalendarData(pages);
+  const updatedCalendarData = updateCalendarDataWithTimestamps(
+    calendarData,
+    timestamps
+  );
 
-  do {
-    startOfCalendar = addDays(addMonths(endOfCalendar, -6), 1);
-
-    const newPage = {
-      startOfCalendar: startOfCalendar,
-      endOfCalendar: endOfCalendar
-    };
-
-    pages.push(newPage);
-
-    endOfCalendar = addDays(startOfCalendar, -1);
-  } while (startOfTimestamps < startOfCalendar);
-
-  pages.reverse();
-
-  const calendarData: CalendarData[] = [];
-  let dayCounter = pages[0].startOfCalendar;
-
-  // create an object for each day of the calendar period
-  while (dayCounter <= pages[pages.length - 1].endOfCalendar) {
-    // this is the format needed for react-calendar-heatmap
-    const newDay = {
-      date: startOfDay(dayCounter),
-      count: 0
-    };
-
-    calendarData.push(newDay);
-    dayCounter = addDays(dayCounter, 1);
-  }
-
-  // add a point to each day with a completed timestamp
-  timestamps.forEach(stamp => {
-    const index = calendarData.findIndex(day =>
-      isEqual(day.date, startOfDay(stamp))
-    );
-
-    if (index >= 0) {
-      // add one point for today
-      calendarData[index].count++;
-    }
-  });
-
-  return <HeatMapInner calendarData={calendarData} pages={pages} t={t} />;
+  return (
+    <HeatMapInner calendarData={updatedCalendarData} pages={pages} t={t} />
+  );
 };
 
 HeatMap.displayName = 'HeatMap';
